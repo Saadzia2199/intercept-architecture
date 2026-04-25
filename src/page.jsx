@@ -4,11 +4,13 @@ import {
   ShieldCheck, Lock, Server, Target, Clock, Shield, AlertTriangle, Users,
   Database, Zap, UserCheck, MessageSquare, Filter, Trophy, Play, ChevronDown,
   ChevronRight, Eye, X, Menu, Check, ArrowRight, Activity, TrendingUp,
-  BarChart3, Layers, Globe, Terminal, Star, ExternalLink
+  BarChart3, Layers, Globe, Terminal, Star, ExternalLink, Calculator, Phone,
+  Radar, Crosshair, Cpu, Wifi, Radio, Sparkles, CircleDot, Flame, Award,
+  BadgeCheck, Fingerprint, ScanLine, Signal, Webhook
 } from "lucide-react";
-
+ 
 /* ─────────────────────── TYPE INTERFACES ─────────────────────── */
-
+ 
 const PRICING_TIERS = [
   {
     id: "tier1",
@@ -76,7 +78,7 @@ const PRICING_TIERS = [
     guarantee: "All previous guarantees + sub-one-second page load or complete free rebuild.",
   },
 ];
-
+ 
 const FAQ_ITEMS = [
   {
     q: "Not another software to learn. I am exhausted by my AMS.",
@@ -111,7 +113,7 @@ const FAQ_ITEMS = [
     a: "We guarantee strict response-time KPIs. If our setter fails to meet them in the first 14 days, we replace them at zero cost to you. No questions asked. No delay. We carry the risk, not you.",
   },
 ];
-
+ 
 const PROOF_CARDS = [
   { type: "Manufacturing", text: "Intercepted $210K Transportation Account via FMCSA Bond Drop — 64 days before renewal", result: "$25,200 annual commission secured", premium: "$210,000" },
   { type: "Construction", text: "Identified $180K General Liability renewal via DOT registration — 52 days before expiry", result: "Broker-of-record change completed", premium: "$180,000" },
@@ -122,7 +124,7 @@ const PROOF_CARDS = [
   { type: "Professional Services", text: "Form 5500 data identified $160K professional liability renewal — 83 days out", result: "CEO meeting booked within 9 days of first contact", premium: "$160,000" },
   { type: "Transportation", text: "FMCSA compliance change triggered $310K fleet coverage review — 45 days to renewal", result: "Broker-of-record letter signed in 22 days", premium: "$310,000" },
 ];
-
+ 
 const VALUE_MODULES = [
   { title: "Regulatory Intent Scraping", value: "$3,500/mo", icon: "Database", desc: "Proprietary algorithms monitor ERISA Form 5500, FMCSA bond drops, and state DOT registrations within your exclusive territory. Identifies exact renewal windows 60–90 days before expiry.", internalCost: "$85,000/yr for a data engineer + API licensing" },
   { title: "Cold Email Infrastructure", value: "$2,500/mo", icon: "Zap", desc: "Protected secondary domains, managed DNS records, inbox rotation, and domain warming protocols. Your primary agency domain is never touched.", internalCost: "$45,000/yr for an email operations specialist" },
@@ -131,7 +133,7 @@ const VALUE_MODULES = [
   { title: "BANT Qualification Filter", value: "$1,500/mo", icon: "Filter", desc: "Strict Budget, Authority, Need, Timeline qualification eliminates price-shoppers and administrative assistants. Only verified decision-makers reach your calendar.", internalCost: "$40,000/yr for a trained SDR manager" },
   { title: "Next.js Trust Center Build", value: "$3,500/mo", icon: "Globe", desc: "Sub-one-second loading enterprise landing page designed to convert sophisticated financial officers. Not a WordPress template. A high-trust digital asset.", internalCost: "$120,000/yr for a full-stack developer + designer" },
 ];
-
+ 
 const TERMINAL_LINES = [
   { text: "> ESTABLISHING SECURE CONNECTION...", delay: 0 },
   { text: "> AUTHENTICATING REGULATORY ACCESS PROTOCOLS...", delay: 500 },
@@ -152,26 +154,26 @@ const TERMINAL_LINES = [
   { text: "> ═════════════════════════════════════", delay: 8000 },
   { text: "> SCAN COMPLETE. 1 HIGH-VALUE TARGET ACQUIRED.", delay: 8500 },
 ];
-
+ 
 const SCAN_PHASES = [
   "> ESTABLISHING SECURE CONNECTION...",
   "> QUERYING ERISA FORM 5500 DATABASE...",
   "> CROSS-REFERENCING LOCAL BROKER ACTIVITY...",
   "> ANALYZING COMPETITIVE DENSITY...",
 ];
-
+ 
 /* ─────────────────────── HELPER COMPONENTS ─────────────────────── */
-
+ 
 const fadeUp = {
   initial: { opacity: 0, y: 40 },
   animate: { opacity: 1, y: 0 },
   transition: { type: "spring", stiffness: 100, damping: 20 },
 };
-
+ 
 const staggerContainer = {
   animate: { transition: { staggerChildren: 0.15 } },
 };
-
+ 
 function SectionHeading({ badge, title, subtitle, align = "center" }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -199,7 +201,7 @@ function SectionHeading({ badge, title, subtitle, align = "center" }) {
     </motion.div>
   );
 }
-
+ 
 function GlowIcon({ icon: Icon, color = "cyan" }) {
   const colorMap = {
     cyan: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400",
@@ -212,7 +214,7 @@ function GlowIcon({ icon: Icon, color = "cyan" }) {
     </div>
   );
 }
-
+ 
 function GlassCard({ children, className = "", hover = true }) {
   return (
     <motion.div
@@ -224,26 +226,26 @@ function GlassCard({ children, className = "", hover = true }) {
     </motion.div>
   );
 }
-
+ 
 function AnimatedNumber({ value, prefix = "$", suffix = "" }) {
   const spring = useSpring(0, { stiffness: 50, damping: 20 });
   const display = useTransform(spring, (v) => `${prefix}${Math.round(v).toLocaleString()}${suffix}`);
   const [text, setText] = useState(`${prefix}0${suffix}`);
-
+ 
   useEffect(() => {
     spring.set(value);
   }, [value, spring]);
-
+ 
   useEffect(() => {
     const unsubscribe = display.on("change", (v) => setText(v));
     return unsubscribe;
   }, [display]);
-
+ 
   return <span className="tabular-nums">{text}</span>;
 }
-
+ 
 /* ─────────────────────── MAIN PAGE COMPONENT ─────────────────────── */
-
+ 
 export default function InterceptLandingPage() {
   /* ── NAV STATE ── */
   const [scrolled, setScrolled] = useState(false);
@@ -252,13 +254,13 @@ export default function InterceptLandingPage() {
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
-
+ 
   /* ── VSL STATE ── */
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-
+ 
   /* ── DIAGNOSIS TOOL STATE ── */
   const [activePain, setActivePain] = useState("renewal-trap");
-
+ 
   const painTabs = [
     {
       id: "renewal-trap",
@@ -301,7 +303,7 @@ export default function InterceptLandingPage() {
         "We replace your entire networking strategy with a predictable, automated interception engine. Zero breakfast meetings required. Zero forced pitches. Your calendar fills with targeted CEO conversations instead.",
     },
   ];
-
+ 
   /* ── ROI CALCULATOR STATE ── */
   const [premium, setPremium] = useState(150000);
   const [closeRate, setCloseRate] = useState(15);
@@ -309,14 +311,14 @@ export default function InterceptLandingPage() {
   const firstYearCommission = premium * 0.12 * (meetingsPerMonth * (closeRate / 100));
   const lifetimeValue = firstYearCommission * 5;
   const peExitValue = firstYearCommission * 10;
-
+ 
   /* ── TERMINAL STATE ── */
   const [terminalLines, setTerminalLines] = useState([]);
   const terminalRef = useRef(null);
   const terminalInViewRef = useRef(null);
   const terminalInView = useInView(terminalInViewRef, { once: true, margin: "-100px" });
   const [terminalStarted, setTerminalStarted] = useState(false);
-
+ 
   useEffect(() => {
     if (terminalInView && !terminalStarted) {
       setTerminalStarted(true);
@@ -327,20 +329,20 @@ export default function InterceptLandingPage() {
       });
     }
   }, [terminalInView, terminalStarted]);
-
+ 
   useEffect(() => {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
   }, [terminalLines]);
-
+ 
   /* ── TERRITORY SCANNER STATE ── */
   const [zipCode, setZipCode] = useState("");
   const [zipError, setZipError] = useState("");
   const [isScanning, setIsScanning] = useState(false);
   const [scanPhase, setScanPhase] = useState(0);
   const [scanComplete, setScanComplete] = useState(false);
-
+ 
   const handleTerritorySubmit = () => {
     const zipRegex = /^\d{5}(-\d{4})?$/;
     if (!zipRegex.test(zipCode)) {
@@ -352,7 +354,7 @@ export default function InterceptLandingPage() {
     setIsScanning(true);
     setScanComplete(false);
     setScanPhase(0);
-
+ 
     const phases = SCAN_PHASES;
     phases.forEach((_, i) => {
       setTimeout(() => setScanPhase(i), i * 500);
@@ -362,24 +364,24 @@ export default function InterceptLandingPage() {
       setScanComplete(true);
     }, 2000);
   };
-
+ 
   /* ── PROOF FILTER STATE ── */
   const [activeFilter, setActiveFilter] = useState("All");
   const proofFilters = ["All", "Manufacturing", "Construction", "Transportation", "Professional Services"];
   const filteredProofs = activeFilter === "All" ? PROOF_CARDS : PROOF_CARDS.filter((c) => c.type === activeFilter);
-
+ 
   /* ── VALUE STACK STATE ── */
   const [activeModule, setActiveModule] = useState(null);
   const iconLookup = { Database, Zap, Activity, UserCheck, Filter, Globe };
-
+ 
   /* ── FAQ STATE ── */
   const [openFAQ, setOpenFAQ] = useState(null);
-
+ 
   /* ── BEFORE/AFTER SLIDER STATE ── */
   const [sliderPos, setSliderPos] = useState(50);
   const sliderContainerRef = useRef(null);
   const isDragging = useRef(false);
-
+ 
   const handleSliderMove = useCallback((clientX) => {
     if (!sliderContainerRef.current) return;
     const rect = sliderContainerRef.current.getBoundingClientRect();
@@ -387,7 +389,7 @@ export default function InterceptLandingPage() {
     const pct = Math.max(5, Math.min(95, (x / rect.width) * 100));
     setSliderPos(pct);
   }, []);
-
+ 
   useEffect(() => {
     const onMove = (e) => {
       if (!isDragging.current) return;
@@ -406,14 +408,14 @@ export default function InterceptLandingPage() {
       window.removeEventListener("touchend", onUp);
     };
   }, [handleSliderMove]);
-
+ 
   /* ── SECTION 6 SCROLL ANIMATION ── */
   const s6Ref = useRef(null);
   const s6InView = useInView(s6Ref, { once: true, margin: "-100px" });
-
+ 
   /* ── PRICING HOVER STATE ── */
   const [hoveredTier, setHoveredTier] = useState(null);
-
+ 
   /* ─────────────── DOT GRID PATTERN (CSS BG) ─────────────── */
   const dotBg = {
     backgroundImage: `radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)`,
@@ -423,13 +425,13 @@ export default function InterceptLandingPage() {
     backgroundImage: `radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px)`,
     backgroundSize: "32px 32px",
   };
-
+ 
   /* ═══════════════════════════════════════════════════════════════
      RENDER
      ═══════════════════════════════════════════════════════════════ */
   return (
     <div className="min-h-screen bg-black text-white antialiased" style={{ fontFamily: "'Inter', 'Geist Sans', system-ui, sans-serif" }}>
-
+ 
       {/* ════════════════════ SECTION 1: GLOBAL COMMAND NAV ════════════════════ */}
       <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 border-b ${scrolled ? "bg-black/90 backdrop-blur-xl border-white/5" : "bg-white/[0.02] backdrop-blur-xl border-white/5"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
@@ -437,6 +439,7 @@ export default function InterceptLandingPage() {
           <div className="flex items-center gap-3 sm:gap-6 md:gap-8">
             {[
               { label: "Mechanism", target: "mechanism" },
+              { label: "ROI Calculator", target: "roi-calculator" },
               { label: "Proof", target: "proof" },
               { label: "Pricing", target: "pricing" },
             ].map((link) => (
@@ -468,139 +471,221 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </nav>
-
+ 
       {/* ════════════════════ SECTION 2: HIGH-TRUST HERO ZONE ════════════════════ */}
-      <section className="relative min-h-screen flex items-center pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden" style={dotBg}>
+      <section className="relative min-h-screen flex items-center pt-20 pb-16 md:pt-28 md:pb-24 overflow-hidden" style={dotBg}>
+        {/* Decorative background elements */}
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/[0.03] via-transparent to-transparent pointer-events-none" />
+        <div className="absolute top-20 left-0 w-72 h-72 bg-cyan-500/[0.04] rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-20 right-0 w-96 h-96 bg-blue-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
+        {/* Animated grid lines */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(6,182,212,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,0.3) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+ 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-          <motion.div className="text-center" initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.div variants={fadeUp}>
-              <span className="inline-block mb-6 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 uppercase tracking-widest text-xs font-semibold">
-                Commercial Reconnaissance Engine™
-              </span>
-            </motion.div>
-            <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-[0.95] text-white max-w-5xl mx-auto">
-              Secure $150,000 Commercial Accounts In 60 Days{" "}
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-emerald-400 text-transparent bg-clip-text">
-                Without Buying Shared Leads.
-              </span>
-            </motion.h1>
-            <motion.p variants={fadeUp} className="mt-6 text-lg md:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-              Intent-Signal Scraping uses verified ERISA, FMCSA, and DOT regulatory data to intercept high-premium accounts exactly 60 days before renewal — before your competitors even know they exist.
-            </motion.p>
-
-            {/* VSL PLACEHOLDER */}
-            <motion.div variants={fadeUp} className="mt-12 max-w-4xl mx-auto">
-              <div
-                onClick={() => setIsVideoPlaying(true)}
-                className="relative aspect-video rounded-2xl overflow-hidden cursor-pointer group bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                  <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-20 h-20 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center group-hover:bg-cyan-500/30 transition-colors"
-                  >
-                    <Play size={32} className="text-cyan-400 ml-1" fill="currentColor" />
-                  </motion.div>
-                  <motion.span
-                    animate={{ opacity: [0.6, 1, 0.6] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-cyan-400 text-sm font-semibold tracking-wider uppercase"
-                  >
-                    Watch the 4-Minute Strategy Breakdown
-                  </motion.span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* VSL MODAL */}
-            <AnimatePresence>
-              {isVideoPlaying && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4"
-                  onClick={() => setIsVideoPlaying(false)}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* LEFT: Copy */}
+            <motion.div className="lg:col-span-7 text-center lg:text-left" initial="initial" animate="animate" variants={staggerContainer}>
+              <motion.div variants={fadeUp}>
+                <span className="inline-block mb-5 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 uppercase tracking-widest text-xs font-semibold">
+                  <Radar size={12} className="inline mr-1.5 -mt-0.5" />
+                  Commercial Reconnaissance Engine™
+                </span>
+              </motion.div>
+              <motion.h1 variants={fadeUp} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tighter leading-[0.95] text-white">
+                Secure $150,000 Commercial Accounts In 60 Days{" "}
+                <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-emerald-400 text-transparent bg-clip-text">
+                  Without Buying Shared Leads.
+                </span>
+              </motion.h1>
+              <motion.p variants={fadeUp} className="mt-5 text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                Intent-Signal Scraping uses verified ERISA, FMCSA, and DOT regulatory data to intercept high-premium accounts exactly 60 days before renewal — before your competitors even know they exist.
+              </motion.p>
+ 
+              {/* CTAs */}
+              <motion.div variants={fadeUp} className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <motion.a
+                  href="#territory"
+                  onClick={(e) => { e.preventDefault(); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center justify-center gap-3 px-7 py-4 rounded-xl bg-cyan-500 text-white font-bold text-base sm:text-lg shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] hover:bg-cyan-400 transition-colors"
                 >
-                  <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.9, opacity: 0 }}
-                    className="w-full max-w-5xl aspect-video bg-slate-900 rounded-2xl border border-white/10 flex items-center justify-center"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {/* Replace with actual video iframe */}
-                    <p className="text-slate-500 text-lg">VSL Video Player — Insert GoHighLevel or Wistia embed here</p>
-                  </motion.div>
-                  <button onClick={() => setIsVideoPlaying(false)} className="absolute top-6 right-6 text-white/60 hover:text-white">
-                    <X size={32} />
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* TRUST ELEMENTS */}
-            <motion.div variants={fadeUp} className="mt-10 flex flex-col items-center gap-4">
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-3">
-                  {[...Array(6)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-10 h-10 rounded-full border-2 border-black"
-                      style={{ background: `linear-gradient(135deg, hsl(${180 + i * 25}, 60%, 40%), hsl(${200 + i * 25}, 70%, 30%))` }}
-                    />
+                  <ShieldCheck size={20} strokeWidth={1.5} />
+                  Check Territory Availability
+                  <ArrowRight size={20} strokeWidth={1.5} />
+                </motion.a>
+                <motion.a
+                  href="#roi-calculator"
+                  onClick={(e) => { e.preventDefault(); document.getElementById("roi-calculator")?.scrollIntoView({ behavior: "smooth" }); }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl border border-white/10 text-slate-300 font-semibold text-base hover:bg-white/5 hover:border-white/20 transition-all"
+                >
+                  <Calculator size={18} strokeWidth={1.5} />
+                  Calculate Your ROI
+                </motion.a>
+              </motion.div>
+ 
+              {/* TRUST ELEMENTS */}
+              <motion.div variants={fadeUp} className="mt-8 flex flex-col items-center lg:items-start gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-3">
+                    {[...Array(6)].map((_, i) => (
+                      <div key={i} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-black" style={{ background: `linear-gradient(135deg, hsl(${180 + i * 25}, 60%, 40%), hsl(${200 + i * 25}, 70%, 30%))` }} />
+                    ))}
+                  </div>
+                  <span className="text-slate-400 text-xs sm:text-sm ml-2">Trusted by <span className="text-white font-semibold">200+</span> Elite Commercial Brokers</span>
+                </div>
+                <div className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3">
+                  {[
+                    { icon: ShieldCheck, label: "256-Bit Encrypted" },
+                    { icon: Lock, label: "Territory-Locked" },
+                    { icon: Server, label: "Enterprise Grade" },
+                    { icon: Target, label: "Intent-Verified" },
+                  ].map((badge) => (
+                    <div key={badge.label} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/[0.06] text-slate-500 text-[10px] sm:text-xs">
+                      <badge.icon size={12} strokeWidth={1.5} />
+                      <span>{badge.label}</span>
+                    </div>
                   ))}
                 </div>
-                <span className="text-slate-400 text-sm ml-2">Trusted by <span className="text-white font-semibold">200+</span> Elite Commercial Brokers Nationwide</span>
-              </div>
-              <motion.div className="flex flex-wrap justify-center gap-4 mt-2" variants={staggerContainer} initial="initial" animate="animate">
-                {[
-                  { icon: ShieldCheck, label: "256-Bit Encrypted" },
-                  { icon: Lock, label: "Territory-Locked Data" },
-                  { icon: Server, label: "Enterprise Infrastructure" },
-                  { icon: Target, label: "Intent-Signal Verified" },
-                ].map((badge) => (
-                  <motion.div key={badge.label} variants={fadeUp} className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-slate-400 text-xs">
-                    <badge.icon size={14} strokeWidth={1.5} />
-                    <span>{badge.label}</span>
-                  </motion.div>
-                ))}
               </motion.div>
             </motion.div>
-
-            {/* PRIMARY CTA */}
-            <motion.div variants={fadeUp} className="mt-10">
-              <motion.a
-                href="#territory"
-                onClick={(e) => { e.preventDefault(); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-cyan-500 text-white font-bold text-lg shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] hover:bg-cyan-400 transition-colors"
-              >
-                <ShieldCheck size={20} strokeWidth={1.5} />
-                Check Your Territory Availability
-                <ArrowRight size={20} strokeWidth={1.5} />
-              </motion.a>
-            </motion.div>
-
-            {/* POWER OF ONE */}
-            <motion.div variants={fadeUp} className="mt-10 max-w-3xl mx-auto">
-              <div className="p-6 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                <p className="font-mono text-sm md:text-base text-slate-300 leading-relaxed">
-                  <span className="text-cyan-400 font-bold">THE MATH:</span> Our system costs $2,500–$7,500/mo. One commercial account yields $15,000+/yr. You need <span className="text-white font-bold">ONE</span> account to liquidate the entire investment. Everything else is pure profit.
-                </p>
+ 
+            {/* RIGHT: Founder Image + Data Overlay */}
+            <motion.div
+              className="lg:col-span-5 flex justify-center lg:justify-end"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.3 }}
+            >
+              <div className="relative w-full max-w-sm sm:max-w-md">
+                {/* Glow behind image */}
+                <div className="absolute -inset-4 bg-gradient-to-br from-cyan-500/20 via-blue-500/10 to-transparent rounded-3xl blur-2xl pointer-events-none" />
+                {/* Image container */}
+                <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_0_60px_-15px_rgba(6,182,212,0.3)] bg-gradient-to-b from-slate-900 via-[#0B1120] to-black">
+                  <img
+                    src="/saad_nobg.png"
+                    alt="Saad — Founder, Intercept Architecture"
+                    className="w-full h-auto object-cover"
+                  />
+                  {/* Gradient overlay at bottom for blend */}
+                  <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                  {/* Name overlay */}
+                  <div className="absolute bottom-4 left-5 right-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-white font-bold text-sm">Saad</span>
+                      <span className="text-slate-400 text-xs">Founder & Chief Architect</span>
+                    </div>
+                  </div>
+                </div>
+                {/* Floating data cards around image */}
+                <motion.div
+                  animate={{ y: [-4, 4, -4] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-3 -right-3 sm:-right-6 px-3 py-2 rounded-lg bg-slate-900/90 backdrop-blur-sm border border-cyan-500/20 shadow-lg"
+                >
+                  <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Territories Secured</div>
+                  <div className="text-cyan-400 font-mono font-bold text-lg">200+</div>
+                </motion.div>
+                <motion.div
+                  animate={{ y: [4, -4, 4] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute bottom-24 -left-3 sm:-left-6 px-3 py-2 rounded-lg bg-slate-900/90 backdrop-blur-sm border border-emerald-500/20 shadow-lg"
+                >
+                  <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Premium Intercepted</div>
+                  <div className="text-emerald-400 font-mono font-bold text-lg">$12M+</div>
+                </motion.div>
               </div>
             </motion.div>
+          </div>
+ 
+          {/* POWER OF ONE — full width below */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="mt-12 md:mt-16 max-w-4xl mx-auto"
+          >
+            <div className="p-5 sm:p-6 rounded-xl bg-white/[0.02] border border-white/[0.06] backdrop-blur-sm">
+              <p className="font-mono text-xs sm:text-sm md:text-base text-slate-300 leading-relaxed text-center">
+                <span className="text-cyan-400 font-bold">THE MATH:</span> Our system costs $2,500–$7,500/mo. One commercial account yields $15,000+/yr. You need <span className="text-white font-bold">ONE</span> account to liquidate the entire investment. Everything else is pure profit.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
-
-      {/* ════════════════════ SECTION 3: PROBLEM DIAGNOSIS TOOL ════════════════════ */}
-      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5" style={dotBg2}>
+ 
+      {/* ════════════════════ VSL SECTION ════════════════════ */}
+      <section className="py-16 md:py-24 bg-slate-950 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="inline-block mb-4 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-slate-400 uppercase tracking-widest text-xs font-semibold">
+              <Play size={12} className="inline mr-1.5 -mt-0.5" />
+              Strategy Breakdown
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tighter text-white">See The Engine In Action</h2>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <div
+              onClick={() => setIsVideoPlaying(true)}
+              className="relative aspect-video rounded-2xl overflow-hidden cursor-pointer group bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                <motion.div
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center group-hover:bg-cyan-500/30 transition-colors"
+                >
+                  <Play size={28} className="text-cyan-400 ml-1" fill="currentColor" />
+                </motion.div>
+                <motion.span
+                  animate={{ opacity: [0.6, 1, 0.6] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="text-cyan-400 text-xs sm:text-sm font-semibold tracking-wider uppercase"
+                >
+                  Watch the 4-Minute Strategy Breakdown
+                </motion.span>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+        {/* VSL MODAL */}
+        <AnimatePresence>
+          {isVideoPlaying && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4"
+              onClick={() => setIsVideoPlaying(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="w-full max-w-5xl aspect-video bg-slate-900 rounded-2xl border border-white/10 flex items-center justify-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <p className="text-slate-500 text-lg">VSL Video Player — Insert GoHighLevel or Wistia embed here</p>
+              </motion.div>
+              <button onClick={() => setIsVideoPlaying(false)} className="absolute top-6 right-6 text-white/60 hover:text-white">
+                <X size={32} />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </section>
+ 
+      {/* ════════════════════ SECTION 3: PROBLEM DIAGNOSIS TOOL ════════════════════ */}
+      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden" style={dotBg2}>
+        {/* Decorative elements */}
+        <div className="absolute top-10 right-10 w-64 h-64 bg-cyan-500/[0.03] rounded-full blur-[80px] pointer-events-none" />
+        <div className="absolute bottom-10 left-10 w-48 h-48 bg-blue-500/[0.03] rounded-full blur-[60px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading
             badge="Diagnosis"
             title="Which Operational Nightmare Is Costing You The Most?"
@@ -619,8 +704,8 @@ export default function InterceptLandingPage() {
                       : "bg-white/[0.02] border-white/[0.06] text-slate-400 hover:border-white/[0.12] hover:text-white"
                   }`}
                 >
-                  <tab.icon size={20} strokeWidth={1.5} />
-                  <span className="text-sm font-semibold tracking-wide uppercase">{tab.label}</span>
+                  <tab.icon size={20} strokeWidth={1.5} className="flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-semibold tracking-wide uppercase">{tab.label}</span>
                 </button>
               ))}
             </div>
@@ -650,7 +735,7 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 4: THE ENEMY AGITATION ════════════════════ */}
       <section className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -728,7 +813,7 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 5: BEFORE VS AFTER ════════════════════ */}
       <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -773,7 +858,7 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 6: SOLUTION REVEAL ════════════════════ */}
       <section className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center" ref={s6Ref}>
@@ -798,10 +883,11 @@ export default function InterceptLandingPage() {
           </motion.p>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 7: 3-PHASE MECHANISM ════════════════════ */}
-      <section id="mechanism" className="py-24 md:py-32 bg-slate-950 border-t border-white/5" style={dotBg2}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="mechanism" className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden" style={dotBg2}>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/[0.02] rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading badge="The Mechanism" title="Three Phases. Zero Guesswork. Complete Interception." />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -827,7 +913,7 @@ export default function InterceptLandingPage() {
               );
             })}
           </div>
-
+ 
           {/* ANIMATED PIPELINE SVG */}
           <div className="mt-16 max-w-5xl mx-auto overflow-x-auto">
             <div className="min-w-[700px]">
@@ -863,7 +949,7 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 8: TERMINAL SIMULATOR ════════════════════ */}
       <section className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -895,10 +981,11 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 9: ROI CALCULATOR ════════════════════ */}
-      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5" style={dotBg2}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="roi-calculator" className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden" style={dotBg2}>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading badge="ROI Engine" title="Calculate Your Revenue. Prove It To Yourself." subtitle="Drag the sliders. Watch the numbers. One account changes everything." />
           <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* INPUTS */}
@@ -978,7 +1065,7 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 10: OPERATIONAL RELIEF ════════════════════ */}
       <section className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1020,7 +1107,7 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 11: PE MULTIPLIER ════════════════════ */}
       <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5" style={dotBg2}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1062,10 +1149,11 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 12: PROOF & SOCIAL VALIDATION ════════════════════ */}
-      <section id="proof" className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="proof" className="py-24 md:py-32 bg-black border-t border-white/5 relative overflow-hidden" style={dotBg}>
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading badge="Verified Results" title="Real Interceptions. Real Commissions. Real Accounts." />
           {/* FILTERS */}
           <div className="flex flex-wrap justify-center gap-2 mb-10">
@@ -1129,7 +1217,7 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 13: VALUE STACK VISUALIZER ════════════════════ */}
       <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5" style={dotBg2}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1173,10 +1261,12 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 14: PRICING TIERS ════════════════════ */}
-      <section id="pricing" className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="pricing" className="py-24 md:py-32 bg-black border-t border-white/5 relative overflow-hidden" style={dotBg}>
+        <div className="absolute top-20 left-0 w-96 h-96 bg-cyan-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-20 right-0 w-80 h-80 bg-blue-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading badge="Investment" title="Select Your Infrastructure Level" subtitle="Every tier is backed by performance guarantees. One account pays for the year." />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-start">
             {PRICING_TIERS.map((tier, i) => (
@@ -1199,7 +1289,7 @@ export default function InterceptLandingPage() {
                   </div>
                   <p className="mt-2 text-slate-400 text-sm">{tier.subtitle}</p>
                   <div className="mt-2 text-xs text-slate-600">Total value: <span className="text-cyan-400 font-semibold">${tier.totalValue}/mo</span></div>
-
+ 
                   <div className="mt-6 space-y-3 flex-1">
                     {tier.features.map((f, fi) => (
                       <div key={fi} className="flex items-start gap-2 text-sm">
@@ -1219,14 +1309,14 @@ export default function InterceptLandingPage() {
                       </div>
                     )}
                   </div>
-
+ 
                   <div className="mt-6 p-3 rounded-xl bg-white/[0.02] border border-white/5">
                     <div className="flex items-start gap-2">
                       <ShieldCheck size={14} className="text-emerald-400 mt-0.5 flex-shrink-0" />
                       <span className="text-xs text-slate-400">{tier.guarantee}</span>
                     </div>
                   </div>
-
+ 
                   <motion.a
                     href="#territory"
                     onClick={(e) => { e.preventDefault(); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
@@ -1250,10 +1340,11 @@ export default function InterceptLandingPage() {
           </p>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 15: GUARANTEE FORTRESS ════════════════════ */}
-      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5" style={dotBg2}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden" style={dotBg2}>
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading badge="Zero Risk" title="Your Guarantees. Our Commitment. No Exceptions." />
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -1276,7 +1367,7 @@ export default function InterceptLandingPage() {
           </p>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 16: OBJECTION DESTRUCTION ════════════════════ */}
       <section className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1316,39 +1407,83 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 17: FOUNDER'S LETTER ════════════════════ */}
-      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="inline-block mb-6 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-slate-500 uppercase tracking-widest text-xs font-semibold">
-            A Letter From Our Founder
-          </span>
-          <div className="text-slate-300 text-lg leading-relaxed space-y-6">
-            <p>
-              You spent the last decade building a highly profitable commercial agency from nothing. You know risk better than anyone — it is literally your profession. You know how to close.
-            </p>
-            <p>
-              But as you look toward the next decade, you face a brutal truth: your sales process lives in your head and your inbox. If you stop selling, your agency stops growing. And the massive carriers are getting better at stealing your clients every quarter.
-            </p>
-            <p>
-              I built Intercept Architecture to solve the single largest bottleneck in agency growth: founder dependence. We do not sell marketing. We deploy enterprise-grade regulatory intelligence and place elite human capital directly inside your business.
-            </p>
-            <p className="text-white font-semibold">
-              We transform your agency from a founder-dependent lifestyle business into a predictable, autonomous acquisition machine. The kind of machine private equity firms pay 13x multiples for. You deserve to command that number. Let us build the infrastructure to get you there.
-            </p>
-            <div className="pt-6 border-t border-white/5">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg">S</div>
-                <div>
-                  <div className="text-white font-bold">Saad</div>
-                  <div className="text-slate-500 text-sm">Founder, Intercept Architecture</div>
+      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+            {/* Image */}
+            <motion.div
+              className="md:col-span-4 flex justify-center"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 80, damping: 20 }}
+            >
+              <div className="relative">
+                <div className="absolute -inset-3 bg-gradient-to-br from-cyan-500/20 via-blue-500/10 to-transparent rounded-2xl blur-xl pointer-events-none" />
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden border border-white/[0.1] shadow-[0_0_40px_-10px_rgba(6,182,212,0.2)] bg-gradient-to-b from-slate-900 to-[#0B1120]">
+                  <img
+                    src="/saad_nobg.png"
+                    alt="Saad — Founder, Intercept Architecture"
+                    className="w-full h-full object-cover object-top"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/80 to-transparent" />
+                </div>
+                <motion.div
+                  animate={{ y: [-3, 3, -3] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -bottom-3 -right-3 px-3 py-1.5 rounded-lg bg-slate-900/90 backdrop-blur-sm border border-emerald-500/20"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-emerald-400 text-xs font-semibold">Available</span>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+            {/* Letter */}
+            <motion.div
+              className="md:col-span-8"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.15 }}
+            >
+              <span className="inline-block mb-5 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-slate-500 uppercase tracking-widest text-xs font-semibold">
+                A Letter From Our Founder
+              </span>
+              <div className="text-slate-300 text-base sm:text-lg leading-relaxed space-y-5">
+                <p>
+                  You spent the last decade building a highly profitable commercial agency from nothing. You know risk better than anyone — it is literally your profession. You know how to close.
+                </p>
+                <p>
+                  But as you look toward the next decade, you face a brutal truth: your sales process lives in your head and your inbox. If you stop selling, your agency stops growing. And the massive carriers are getting better at stealing your clients every quarter.
+                </p>
+                <p>
+                  I built Intercept Architecture to solve the single largest bottleneck in agency growth: founder dependence. We do not sell marketing. We deploy enterprise-grade regulatory intelligence and place elite human capital directly inside your business.
+                </p>
+                <p className="text-white font-semibold">
+                  We transform your agency from a founder-dependent lifestyle business into a predictable, autonomous acquisition machine. The kind of machine private equity firms pay 13x multiples for. You deserve to command that number. Let us build the infrastructure to get you there.
+                </p>
+                <div className="pt-5 border-t border-white/5">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-gradient-to-b from-slate-800 to-slate-900">
+                      <img src="/saad_nobg.png" alt="Saad" className="w-full h-full object-cover object-top" />
+                    </div>
+                    <div>
+                      <div className="text-white font-bold">Saad</div>
+                      <div className="text-slate-500 text-sm">Founder, Intercept Architecture</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 18: TECH STACK & SECURITY ════════════════════ */}
       <section className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1392,10 +1527,12 @@ export default function InterceptLandingPage() {
           }
         `}</style>
       </section>
-
+ 
       {/* ════════════════════ SECTION 19: TERRITORY SCANNER ════════════════════ */}
-      <section id="territory" className="py-24 md:py-32 bg-slate-950 border-t border-white/5" style={dotBg2}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="territory" className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden" style={dotBg2}>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-cyan-500/[0.03] rounded-full blur-[80px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading badge="Territory Lockout" title="Check Your Territory Availability." subtitle="Enter your zip code to scan for competitive density and lockout status." />
           <div className="max-w-xl mx-auto">
             <GlassCard className="p-8" hover={false}>
@@ -1418,13 +1555,13 @@ export default function InterceptLandingPage() {
                   {isScanning ? "Scanning..." : "Scan Territory"}
                 </motion.button>
               </div>
-
+ 
               {zipError && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/20 font-mono text-sm text-red-400">
                   {zipError}
                 </motion.div>
               )}
-
+ 
               {isScanning && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6 p-4 rounded-xl bg-black/40 font-mono text-sm text-green-400/70 space-y-1">
                   {SCAN_PHASES.slice(0, scanPhase + 1).map((phase, i) => (
@@ -1433,7 +1570,7 @@ export default function InterceptLandingPage() {
                   <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ duration: 0.8, repeat: Infinity }} className="text-green-400">▋</motion.span>
                 </motion.div>
               )}
-
+ 
               {scanComplete && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -1451,24 +1588,26 @@ export default function InterceptLandingPage() {
                     <div className="text-slate-400">This 50-mile radius will be permanently locked once claimed.</div>
                   </div>
                   <p className="mt-4 text-slate-400 text-sm">Secure this territory before your competitors deploy this infrastructure against you.</p>
-                  <motion.a
-                    /* GoHighLevel calendar link — insert actual URL below */
-                    href={`https://calendar.link/?zipcode=${zipCode}`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="mt-6 w-full flex items-center justify-center gap-3 py-4 rounded-xl bg-cyan-500 text-white font-bold text-lg shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] hover:bg-cyan-400 transition-colors"
-                  >
-                    <ShieldCheck size={20} />
-                    Claim Territory & Book Strategy Call
-                    <ArrowRight size={20} />
-                  </motion.a>
+ 
+                  {/* Calendly Embed */}
+                  <div className="mt-6 rounded-xl overflow-hidden border border-cyan-500/20">
+                    <iframe
+                      src={`https://calendly.com/interceptarchitecture/strategy-call?hide_gdpr_banner=1&primary_color=06B6D4`}
+                      width="100%"
+                      height="650"
+                      frameBorder="0"
+                      title="Book Strategy Call"
+                      className="w-full min-h-[500px] sm:min-h-[600px] md:min-h-[650px] bg-slate-900"
+                      style={{ border: 'none' }}
+                    />
+                  </div>
                 </motion.div>
               )}
             </GlassCard>
           </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 20: 90-DAY ROI BREAKDOWN ════════════════════ */}
       <section className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1514,64 +1653,93 @@ export default function InterceptLandingPage() {
           </div>
         </div>
       </section>
-
-      {/* ════════════════════ SECTION 21: FINAL CTA ════════════════════ */}
+ 
+      {/* ════════════════════ SECTION 21: FINAL CTA + CALENDLY ════════════════════ */}
       <section className="py-24 md:py-32 bg-black border-t border-white/5 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-radial from-cyan-500/[0.05] via-transparent to-transparent pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(6,182,212,0.07) 0%, transparent 70%)" }} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <motion.h2
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(6,182,212,0.07) 0%, transparent 70%)" }} />
+        <div className="absolute top-0 left-1/4 w-72 h-72 bg-cyan-500/[0.04] rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-12">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 80, damping: 20 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-white leading-tight"
+            >
+              One Territory. One Broker.{" "}
+              <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 text-transparent bg-clip-text">First Come, First Served.</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15 }}
+              className="mt-5 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed"
+            >
+              When you secure your territory, your local competitors are permanently locked out of our infrastructure. If you leave this page today without claiming your zone, our next call is with the broker down the street. One of you will deploy this weapon. The other will become the target.
+            </motion.p>
+          </div>
+ 
+          {/* Calendly Booking Section */}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 80, damping: 20 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-white leading-tight"
+            transition={{ delay: 0.2 }}
+            className="max-w-3xl mx-auto"
           >
-            One Territory. One Broker.{" "}
-            <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 text-transparent bg-clip-text">First Come, First Served.</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.15 }}
-            className="mt-6 text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed"
-          >
-            When you secure your territory, your local competitors are permanently locked out of our infrastructure. If you leave this page today without claiming your zone, our next call is with the broker down the street. One of you will deploy this weapon. The other will become the target.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="mt-10"
-          >
-            <motion.a
-              href="#territory"
-              onClick={(e) => { e.preventDefault(); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              animate={{ boxShadow: ["0 0 40px rgba(6,182,212,0.3)", "0 0 60px rgba(6,182,212,0.5)", "0 0 40px rgba(6,182,212,0.3)"] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="inline-flex items-center gap-3 px-10 py-5 rounded-xl bg-cyan-500 text-white font-bold text-xl hover:bg-cyan-400 transition-colors"
-            >
-              Secure My Territory
-              <ArrowRight size={24} strokeWidth={2} />
-            </motion.a>
-            <div className="mt-4 flex items-center justify-center gap-2 text-slate-500 text-xs">
-              <Lock size={12} />
-              <span>Your data is encrypted. Territory lockout is legally binding. 50-mile radius exclusivity guaranteed.</span>
-            </div>
+            <GlassCard className="p-4 sm:p-6" hover={false}>
+              <div className="text-center mb-5">
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 uppercase tracking-widest text-xs font-semibold">
+                  <Phone size={12} />
+                  Book Your Strategy Call
+                </span>
+              </div>
+              {/* Calendly Embed — replace URL with your actual Calendly link */}
+              <div className="rounded-xl overflow-hidden border border-white/[0.06]">
+                <iframe
+                  src="https://calendly.com/interceptarchitecture/strategy-call?hide_gdpr_banner=1&primary_color=06B6D4"
+                  width="100%"
+                  height="700"
+                  frameBorder="0"
+                  title="Schedule Strategy Call"
+                  className="w-full min-h-[520px] sm:min-h-[600px] md:min-h-[700px] bg-[#0B1120]"
+                  style={{ border: 'none' }}
+                />
+              </div>
+            </GlassCard>
           </motion.div>
+ 
+          <div className="mt-8 flex items-center justify-center gap-2 text-slate-500 text-xs">
+            <Lock size={12} />
+            <span>Your data is encrypted. Territory lockout is legally binding. 50-mile radius exclusivity guaranteed.</span>
+          </div>
         </div>
       </section>
-
+ 
       {/* ════════════════════ SECTION 22: CORPORATE FOOTER ════════════════════ */}
-      <footer className="py-12 bg-black border-t border-white/5">
+      <footer className="py-10 md:py-12 bg-black border-t border-white/5 pb-24 md:pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <span className="text-slate-600 text-sm font-mono">INTERCEPT ARCHITECTURE &copy; 2026. SECURE B2B RECONNAISSANCE.</span>
-            <div className="flex gap-6">
-              {["Privacy Protocol", "Terms of Service", "Data Security", "SEC Compliance Framework"].map((link) => (
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <span className="text-slate-600 text-sm font-mono">INTERCEPT ARCHITECTURE &copy; 2026.</span>
+              {/* WhatsApp in footer */}
+              <a
+                href="https://wa.me/3165160899"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#25D366]/10 border border-[#25D366]/20 text-[#25D366] text-xs font-semibold hover:bg-[#25D366]/20 transition-colors"
+              >
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Chat on WhatsApp
+              </a>
+            </div>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+              {["Privacy Protocol", "Terms of Service", "Data Security", "SEC Compliance"].map((link) => (
                 <a key={link} href="#" className="text-slate-600 text-xs hover:text-slate-400 transition-colors">{link}</a>
               ))}
             </div>
@@ -1581,18 +1749,38 @@ export default function InterceptLandingPage() {
           </p>
         </div>
       </footer>
-
+ 
       {/* ════════════════════ MOBILE STICKY CTA ════════════════════ */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-slate-900/90 backdrop-blur-lg border-t border-white/10 p-4">
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-slate-900/90 backdrop-blur-lg border-t border-white/10 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <a
           href="#territory"
           onClick={(e) => { e.preventDefault(); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
-          className="block w-full py-4 rounded-xl bg-cyan-500 text-white font-bold text-center text-lg shadow-[0_0_30px_-5px_rgba(6,182,212,0.4)]"
+          className="block w-full py-3.5 rounded-xl bg-cyan-500 text-white font-bold text-center text-base shadow-[0_0_30px_-5px_rgba(6,182,212,0.4)]"
         >
           Check Territory Availability
         </a>
       </div>
-
+ 
+      {/* ════════════════════ WHATSAPP FLOATING ICON ════════════════════ */}
+      <motion.a
+        href="https://wa.me/3165160899"
+        target="_blank"
+        rel="noopener noreferrer."
+        aria-label="Contact us on WhatsApp."
+        className="fixed bottom-20 md:bottom-8 right-4 md:right-6 z-[90] w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-[0_4px_20px_rgba(37,211,102,0.4)] hover:shadow-[0_4px_30px_rgba(37,211,102,0.6)] transition-shadow"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1.5, type: "spring", stiffness: 200, damping: 15 }}
+      >
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        {/* Pulse ring */}
+        <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
+      </motion.a>
+ 
     </div>
   );
 }
