@@ -259,6 +259,19 @@ export default function InterceptLandingPage() {
  
   /* ── VSL STATE ── */
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [videoSlide, setVideoSlide] = useState(0);
+  const videoSlideCount = 6;
+ 
+  useEffect(() => {
+    if (!isVideoPlaying) { setVideoSlide(0); return; }
+    const timer = setInterval(() => {
+      setVideoSlide((prev) => {
+        if (prev >= videoSlideCount - 1) { clearInterval(timer); return prev; }
+        return prev + 1;
+      });
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [isVideoPlaying]);
  
   /* ── DIAGNOSIS TOOL STATE ── */
   const [activePain, setActivePain] = useState("renewal-trap");
@@ -596,25 +609,6 @@ export default function InterceptLandingPage() {
                   </div>
                 </div>
  
-                {/* Floating stat card — top right */}
-                <motion.div
-                  animate={{ y: [-5, 5, -5] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-4 -right-4 sm:-right-8 px-3.5 py-2.5 rounded-xl bg-slate-900/95 backdrop-blur-md border border-cyan-500/20 shadow-2xl"
-                >
-                  <div className="text-[9px] text-slate-500 uppercase tracking-widest font-semibold">Revenue Intercepted</div>
-                  <div className="text-cyan-400 font-mono font-bold text-xl">$12M+</div>
-                </motion.div>
- 
-                {/* Floating stat card — bottom left */}
-                <motion.div
-                  animate={{ y: [5, -5, 5] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute bottom-16 -left-4 sm:-left-8 px-3.5 py-2.5 rounded-xl bg-slate-900/95 backdrop-blur-md border border-emerald-500/20 shadow-2xl"
-                >
-                  <div className="text-[9px] text-slate-500 uppercase tracking-widest font-semibold">Retention Rate</div>
-                  <div className="text-emerald-400 font-mono font-bold text-xl">94%</div>
-                </motion.div>
               </div>
             </motion.div>
           </div>
@@ -764,34 +758,217 @@ export default function InterceptLandingPage() {
           </div>
         </div>
  
-        {/* VSL MODAL */}
+        {/* VSL — Cinematic Animated Video */}
         <AnimatePresence>
           {isVideoPlaying && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4"
+              className="fixed inset-0 z-[200] bg-black flex items-center justify-center"
               onClick={() => setIsVideoPlaying(false)}
             >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="w-full max-w-5xl aspect-video rounded-2xl overflow-hidden border border-white/10"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Replace this iframe src with your actual VSL video URL (Wistia, Vimeo, YouTube, or GoHighLevel) */}
-                <iframe
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1"
-                  title="Intercept Architecture Strategy Breakdown"
-                  className="w-full h-full"
-                  allow="autoplay; encrypted-media; fullscreen"
-                  allowFullScreen
-                />
-              </motion.div>
-              <button onClick={() => setIsVideoPlaying(false)} className="absolute top-6 right-6 text-white/60 hover:text-white z-10">
-                <X size={32} />
+              <div className="w-full h-full max-w-6xl max-h-[80vh] mx-auto flex items-center justify-center p-4 sm:p-8" onClick={(e) => e.stopPropagation()}>
+                <div className="w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black relative">
+                  {/* Progress bar */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-white/5 z-20">
+                    <motion.div
+                      className="h-full bg-cyan-500"
+                      initial={{ width: "0%" }}
+                      animate={{ width: `${((videoSlide + 1) / videoSlideCount) * 100}%` }}
+                      transition={{ duration: 0.5 }}
+                    />
+                  </div>
+ 
+                  {/* Slide content */}
+                  <AnimatePresence mode="wait">
+                    {/* SLIDE 0: Opening */}
+                    {videoSlide === 0 && (
+                      <motion.div key="s0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
+                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-black via-slate-950 to-black p-8"
+                      >
+                        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.3, type: "spring" }}>
+                          <span className="text-cyan-400 uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">Intercept Architecture Presents</span>
+                        </motion.div>
+                        <motion.h2 initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.8 }}
+                          className="mt-6 text-2xl sm:text-4xl md:text-5xl font-extrabold text-white text-center tracking-tight leading-tight"
+                        >
+                          The Silent War Against<br />
+                          <span className="text-red-400">Independent Brokers</span>
+                        </motion.h2>
+                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
+                          className="mt-4 text-slate-500 text-sm text-center"
+                        >A 4-minute intelligence briefing</motion.p>
+                      </motion.div>
+                    )}
+ 
+                    {/* SLIDE 1: The Problem — Loss Stats */}
+                    {videoSlide === 1 && (
+                      <motion.div key="s1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
+                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-red-950/30 via-black to-black p-6 sm:p-10"
+                      >
+                        <motion.div initial={{ scale: 2, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.3, type: "spring" }}
+                          className="text-center"
+                        >
+                          <span className="text-red-400 uppercase tracking-widest text-xs font-semibold">Every Year, Direct Writers Steal</span>
+                          <div className="mt-4 text-5xl sm:text-7xl md:text-8xl font-mono font-black text-red-400">$2.4B</div>
+                          <div className="mt-2 text-slate-400 text-sm sm:text-lg">in premium from independent brokers</div>
+                        </motion.div>
+                        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1.5 }}
+                          className="mt-8 grid grid-cols-3 gap-4 sm:gap-8 text-center"
+                        >
+                          <div>
+                            <div className="text-red-400 font-mono font-bold text-xl sm:text-3xl">$180K</div>
+                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">Lifetime commission<br />lost per account</div>
+                          </div>
+                          <div>
+                            <div className="text-red-400 font-mono font-bold text-xl sm:text-3xl">60</div>
+                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">Days before renewal<br />they strike</div>
+                          </div>
+                          <div>
+                            <div className="text-red-400 font-mono font-bold text-xl sm:text-3xl">15%</div>
+                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">Lower quotes to<br />steal your clients</div>
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    )}
+ 
+                    {/* SLIDE 2: The Broken Solutions */}
+                    {videoSlide === 2 && (
+                      <motion.div key="s2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
+                        className="absolute inset-0 flex flex-col items-center justify-center bg-black p-6 sm:p-10"
+                      >
+                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-slate-500 uppercase tracking-widest text-xs font-semibold mb-6">
+                          What You Have Already Tried
+                        </motion.span>
+                        <div className="space-y-3 sm:space-y-4 max-w-lg w-full">
+                          {[
+                            { text: "Shared internet leads — sold to 50 agents simultaneously", delay: 0.3 },
+                            { text: "BNI breakfasts — 156 hours/year, less than 1 referral/month", delay: 0.8 },
+                            { text: "AI SDRs — hallucinated coverages, burned your domain", delay: 1.3 },
+                            { text: "Overseas BPOs — fake live transfers, wrong business data", delay: 1.8 },
+                          ].map((item, i) => (
+                            <motion.div key={i} initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: item.delay }}
+                              className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-red-500/5 border border-red-500/10"
+                            >
+                              <X size={18} className="text-red-400 flex-shrink-0" />
+                              <span className="text-slate-300 text-xs sm:text-sm">{item.text}</span>
+                            </motion.div>
+                          ))}
+                        </div>
+                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }}
+                          className="mt-6 text-slate-500 text-xs text-center"
+                        >None of these work because none of them use the data that actually matters.</motion.p>
+                      </motion.div>
+                    )}
+ 
+                    {/* SLIDE 3: The Mechanism */}
+                    {videoSlide === 3 && (
+                      <motion.div key="s3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
+                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-cyan-950/20 via-black to-black p-6 sm:p-10"
+                      >
+                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-cyan-400 uppercase tracking-widest text-xs font-semibold mb-4">
+                          The Commercial Reconnaissance Engine™
+                        </motion.span>
+                        <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}
+                          className="text-xl sm:text-3xl font-extrabold text-white text-center mb-8"
+                        >We Intercept. Not Generate.</motion.h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl w-full">
+                          {[
+                            { phase: "01", title: "EXTRACT", desc: "ERISA Form 5500, FMCSA bonds, DOT registrations", icon: "📡", delay: 0.6 },
+                            { phase: "02", title: "INTERCEPT", desc: "n8n webhooks trigger 60 days before renewal", icon: "⚡", delay: 1.0 },
+                            { phase: "03", title: "CONVERT", desc: "Dedicated setter, BANT qualified, you close", icon: "🎯", delay: 1.4 },
+                          ].map((p, i) => (
+                            <motion.div key={i} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: p.delay }}
+                              className="p-4 sm:p-5 rounded-xl bg-cyan-500/5 border border-cyan-500/10 text-center"
+                            >
+                              <div className="text-2xl mb-2">{p.icon}</div>
+                              <div className="text-cyan-400 font-mono text-xs font-bold">PHASE {p.phase}</div>
+                              <div className="text-white font-bold text-sm mt-1">{p.title}</div>
+                              <div className="text-slate-500 text-[10px] sm:text-xs mt-1">{p.desc}</div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+ 
+                    {/* SLIDE 4: The ROI Math */}
+                    {videoSlide === 4 && (
+                      <motion.div key="s4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
+                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-emerald-950/20 via-black to-black p-6 sm:p-10"
+                      >
+                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-emerald-400 uppercase tracking-widest text-xs font-semibold mb-4">
+                          The Power of One Account
+                        </motion.span>
+                        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.4 }}
+                          className="text-center mb-8"
+                        >
+                          <div className="text-slate-500 text-sm">System cost: $4,500/mo</div>
+                          <div className="mt-2 text-slate-500 text-sm">ONE account yields:</div>
+                          <div className="mt-3 text-5xl sm:text-7xl font-mono font-black text-emerald-400">$15,000+</div>
+                          <div className="text-slate-400 text-sm mt-1">annual recurring commission</div>
+                        </motion.div>
+                        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1.2 }}
+                          className="grid grid-cols-3 gap-4 sm:gap-8 text-center max-w-lg"
+                        >
+                          <div>
+                            <div className="text-emerald-400 font-mono font-bold text-lg sm:text-2xl">$75K</div>
+                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">5-Year<br />Lifetime Value</div>
+                          </div>
+                          <div>
+                            <div className="text-cyan-400 font-mono font-bold text-lg sm:text-2xl">$150K</div>
+                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">Added to PE<br />Exit Valuation</div>
+                          </div>
+                          <div>
+                            <div className="text-white font-mono font-bold text-lg sm:text-2xl">13x</div>
+                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">EBITDA Multiple<br />Algorithmic Growth</div>
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    )}
+ 
+                    {/* SLIDE 5: CTA */}
+                    {videoSlide === 5 && (
+                      <motion.div key="s5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
+                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-cyan-950/20 via-black to-black p-6 sm:p-10"
+                      >
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.3 }}
+                          className="text-center"
+                        >
+                          <div className="text-cyan-400 uppercase tracking-widest text-xs font-semibold mb-6">One Territory. One Broker. First Come, First Served.</div>
+                          <h3 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+                            Your Competitors Are<br />
+                            <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 text-transparent bg-clip-text">Watching This Too.</span>
+                          </h3>
+                          <p className="mt-4 text-slate-400 text-sm max-w-md mx-auto">When you secure your territory, your local competitors are permanently locked out.</p>
+                          <motion.button
+                            initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1 }}
+                            onClick={(e) => { e.stopPropagation(); setIsVideoPlaying(false); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
+                            className="mt-8 inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-cyan-500 text-white font-bold text-lg shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] hover:bg-cyan-400 transition-colors"
+                          >
+                            <ShieldCheck size={20} />
+                            Check Territory Availability
+                            <ArrowRight size={20} />
+                          </motion.button>
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+ 
+                  {/* Slide navigation dots */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                    {[...Array(videoSlideCount)].map((_, i) => (
+                      <button key={i} onClick={(e) => { e.stopPropagation(); setVideoSlide(i); }}
+                        className={`w-2 h-2 rounded-full transition-all ${i === videoSlide ? "bg-cyan-400 w-6" : "bg-white/20 hover:bg-white/40"}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+ 
+              {/* Close button */}
+              <button onClick={() => setIsVideoPlaying(false)} className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/40 hover:text-white z-30 p-2">
+                <X size={28} />
               </button>
             </motion.div>
           )}
@@ -889,7 +1066,7 @@ export default function InterceptLandingPage() {
               <GlassCard className="p-8 w-full" hover={false}>
                 <div className="text-xs text-red-400 uppercase tracking-widest font-semibold mb-4">Client Retention — Under Direct Writer Assault</div>
                 <div className="relative h-64">
-                  <svg viewBox="0 0 400 200" className="w-full h-full">
+                  <svg viewBox="0 0 440 220" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
                     <defs>
                       <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="rgba(239,68,68,0.3)" />
@@ -897,33 +1074,33 @@ export default function InterceptLandingPage() {
                       </linearGradient>
                     </defs>
                     <motion.path
-                      d="M0,20 C50,22 80,30 120,50 C160,70 200,95 250,120 C300,145 340,165 400,180"
-                      fill="none" stroke="#EF4444" strokeWidth="2"
+                      d="M30,25 C70,28 100,38 150,58 C190,78 230,100 280,128 C320,150 360,168 410,182"
+                      fill="none" stroke="#EF4444" strokeWidth="2.5"
                       initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }}
                       viewport={{ once: true }} transition={{ duration: 2, ease: "easeOut" }}
                     />
                     <motion.path
-                      d="M0,20 C50,22 80,30 120,50 C160,70 200,95 250,120 C300,145 340,165 400,180 L400,200 L0,200 Z"
+                      d="M30,25 C70,28 100,38 150,58 C190,78 230,100 280,128 C320,150 360,168 410,182 L410,205 L30,205 Z"
                       fill="url(#redGrad)"
                       initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
                       viewport={{ once: true }} transition={{ duration: 1, delay: 1 }}
                     />
                     {[
-                      { x: 0, y: 20, label: "Year 1" },
-                      { x: 120, y: 50, label: "Year 3" },
-                      { x: 250, y: 120, label: "Year 5" },
-                      { x: 400, y: 180, label: "Year 7" },
+                      { x: 30, y: 25, label: "Year 1" },
+                      { x: 150, y: 58, label: "Year 3" },
+                      { x: 280, y: 128, label: "Year 5" },
+                      { x: 410, y: 182, label: "Year 7" },
                     ].map((point, i) => (
                       <g key={i}>
                         <motion.circle
-                          cx={point.x} cy={point.y} r="4" fill="#EF4444"
+                          cx={point.x} cy={point.y} r="5" fill="#EF4444"
                           initial={{ scale: 0 }} whileInView={{ scale: 1 }}
                           viewport={{ once: true }} transition={{ delay: 0.5 + i * 0.3 }}
                         />
-                        <text x={point.x} y={point.y + 18} fill="#94A3B8" fontSize="10" textAnchor="middle">{point.label}</text>
+                        <text x={point.x} y={point.y + 20} fill="#94A3B8" fontSize="11" textAnchor="middle" fontWeight="500">{point.label}</text>
                       </g>
                     ))}
-                    <text x="200" y="196" fill="#EF4444" fontSize="11" textAnchor="middle" fontWeight="bold">↓ Projected Book Erosion Without Interception</text>
+                    <text x="220" y="215" fill="#EF4444" fontSize="10" textAnchor="middle" fontWeight="bold">↓ Projected Book Erosion Without Interception</text>
                   </svg>
                 </div>
               </GlassCard>
