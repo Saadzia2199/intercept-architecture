@@ -357,6 +357,7 @@ export default function InterceptLandingPage() {
   const [isScanning, setIsScanning] = useState(false);
   const [scanPhase, setScanPhase] = useState(0);
   const [scanComplete, setScanComplete] = useState(false);
+  const [showCalendly, setShowCalendly] = useState(false);
  
   const handleTerritorySubmit = () => {
     const zipRegex = /^\d{5}(-\d{4})?$/;
@@ -1870,31 +1871,94 @@ export default function InterceptLandingPage() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-6 p-6 rounded-xl border border-red-500/30 bg-red-500/5 shadow-[0_0_30px_-10px_rgba(239,68,68,0.3)]"
                 >
-                  <div className="flex items-center gap-2 mb-3">
-                    <AlertTriangle size={20} className="text-red-400" />
-                    <span className="text-red-400 font-bold text-sm uppercase tracking-wider">Territory Alert</span>
+                  {/* Alert Box */}
+                  <div className="mt-6 p-5 rounded-xl border border-red-500/30 bg-red-500/5 shadow-[0_0_30px_-10px_rgba(239,68,68,0.3)]">
+                    <div className="flex items-center gap-2 mb-3">
+                      <AlertTriangle size={18} className="text-red-400" />
+                      <span className="text-red-400 font-bold text-sm uppercase tracking-wider">Territory Alert</span>
+                    </div>
+                    <div className="font-mono text-sm space-y-1.5">
+                      <div className="text-white">TERRITORY <span className="text-cyan-400">[{zipCode}]</span> IS CURRENTLY <span className="text-emerald-400 font-bold">OPEN</span>.</div>
+                      <div className="text-slate-400">Lockout Status: <span className="text-yellow-400">Pending</span></div>
+                      <div className="text-red-400">1 Local Competitor Currently in Queue.</div>
+                    </div>
                   </div>
-                  <div className="font-mono text-sm space-y-2">
-                    <div className="text-white">TERRITORY <span className="text-cyan-400">[{zipCode}]</span> IS CURRENTLY <span className="text-emerald-400 font-bold">OPEN</span>.</div>
-                    <div className="text-slate-400">Lockout Status: <span className="text-yellow-400">Pending</span></div>
-                    <div className="text-red-400">1 Local Competitor Currently in Queue.</div>
-                    <div className="text-slate-400">This 50-mile radius will be permanently locked once claimed.</div>
-                  </div>
-                  <p className="mt-4 text-slate-400 text-sm">Secure this territory before your competitors deploy this infrastructure against you.</p>
  
-                  {/* Calendly Embed */}
-                  <div className="mt-6 rounded-xl overflow-hidden border border-cyan-500/20">
-                    <iframe
-                      src={`https://calendly.com/interceptarchitecture/strategy-call?hide_gdpr_banner=1&primary_color=06B6D4`}
-                      width="100%"
-                      height="650"
-                      frameBorder="0"
-                      title="Book Strategy Call"
-                      className="w-full min-h-[500px] sm:min-h-[600px] md:min-h-[650px] bg-slate-900"
-                      style={{ border: 'none' }}
-                    />
+                  {/* Step-by-step booking guide */}
+                  <div className="mt-6 space-y-3">
+                    {/* What happens next — 3 steps */}
+                    <div className="p-5 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                      <div className="text-white font-semibold text-sm mb-4">Here is exactly what happens next:</div>
+                      <div className="space-y-3">
+                        {[
+                          { step: "1", title: "15-Minute Strategy Call", desc: "We analyze your territory, current book size, and growth goals. Zero pitch — pure intelligence briefing.", icon: Phone },
+                          { step: "2", title: "Custom Interception Blueprint", desc: "Within 48 hours you receive a territory-specific scraping plan with projected renewal targets in your zip code.", icon: Target },
+                          { step: "3", title: "Deploy in 14 Days", desc: "Infrastructure goes live. First qualified CEO conversations within 21–30 days.", icon: Zap },
+                        ].map((item) => (
+                          <div key={item.step} className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <span className="text-cyan-400 font-mono font-bold text-xs">{item.step}</span>
+                            </div>
+                            <div>
+                              <div className="text-white text-sm font-semibold">{item.title}</div>
+                              <div className="text-slate-500 text-xs mt-0.5">{item.desc}</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+ 
+                    {/* Guarantees reminder */}
+                    <div className="flex flex-wrap gap-3">
+                      {[
+                        { icon: ShieldCheck, text: "5 conversations in 30 days or we work free" },
+                        { icon: Lock, text: "50-mile exclusive territory lockout" },
+                        { icon: Clock, text: "15 min call — zero obligation" },
+                      ].map((g, i) => (
+                        <div key={i} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10 text-emerald-400/80 text-[10px] sm:text-xs">
+                          <g.icon size={12} strokeWidth={1.5} />
+                          <span>{g.text}</span>
+                        </div>
+                      ))}
+                    </div>
+ 
+                    {/* CTA — Toggle Calendly */}
+                    {!showCalendly ? (
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setShowCalendly(true)}
+                        className="w-full flex items-center justify-center gap-3 py-4 rounded-xl bg-cyan-500 text-white font-bold text-lg shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] hover:bg-cyan-400 transition-colors"
+                      >
+                        <Phone size={20} />
+                        Pick a Time — Lock My Territory
+                        <ArrowRight size={20} />
+                      </motion.button>
+                    ) : (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-white text-sm font-semibold">Select a time that works for you:</span>
+                          <button onClick={() => setShowCalendly(false)} className="text-slate-500 hover:text-white text-xs transition-colors">Collapse</button>
+                        </div>
+                        {/* Calendly Embed — replace URL with your actual Calendly link */}
+                        <div className="rounded-xl overflow-hidden border border-cyan-500/20">
+                          <iframe
+                            src={`https://calendly.com/interceptarchitecture/strategy-call?hide_gdpr_banner=1&primary_color=06B6D4`}
+                            width="100%"
+                            height="650"
+                            frameBorder="0"
+                            title="Book Strategy Call"
+                            className="w-full min-h-[500px] sm:min-h-[600px] md:min-h-[650px] bg-slate-900"
+                            style={{ border: 'none' }}
+                          />
+                        </div>
+                      </motion.div>
+                    )}
                   </div>
                 </motion.div>
               )}
@@ -1977,34 +2041,98 @@ export default function InterceptLandingPage() {
             </motion.p>
           </div>
  
-          {/* Calendly Booking Section */}
+          {/* Booking Experience */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="max-w-3xl mx-auto"
+            className="max-w-4xl mx-auto"
           >
-            <GlassCard className="p-4 sm:p-6" hover={false}>
-              <div className="text-center mb-5">
-                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 uppercase tracking-widest text-xs font-semibold">
-                  <Phone size={12} />
-                  Book Your Strategy Call
-                </span>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              {/* Left — Why book now */}
+              <div className="md:col-span-2 space-y-4">
+                <GlassCard className="p-6" hover={false}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
+                      <Phone size={16} className="text-cyan-400" />
+                    </div>
+                    <span className="text-white font-bold text-sm">Strategy Call</span>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-2">
+                      <Clock size={14} className="text-slate-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-400 text-sm">15 minutes — zero fluff, pure strategy</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Target size={14} className="text-slate-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-400 text-sm">We analyze your territory and current book</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <ShieldCheck size={14} className="text-slate-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-400 text-sm">No pitch. If it is not a fit, we tell you</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Lock size={14} className="text-slate-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-400 text-sm">Territory is held for 72 hours after booking</span>
+                    </div>
+                  </div>
+                  <div className="mt-5 pt-4 border-t border-white/5">
+                    <div className="text-[10px] text-slate-600 uppercase tracking-widest font-semibold mb-2">What you walk away with:</div>
+                    <div className="space-y-2">
+                      {[
+                        "Territory density report for your zip code",
+                        "Estimated renewal targets in your area",
+                        "Custom ROI projection for your book size",
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <Check size={12} className="text-emerald-400 flex-shrink-0" />
+                          <span className="text-slate-300 text-xs">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </GlassCard>
+ 
+                {/* Testimonial snippet */}
+                <GlassCard className="p-5" hover={false}>
+                  <div className="text-slate-400 text-xs leading-relaxed italic">
+                    "I expected a sales pitch. Instead they showed me exactly which accounts in my zip code were approaching renewal. I signed up that day."
+                  </div>
+                  <div className="mt-3 flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600" />
+                    <div>
+                      <div className="text-white text-xs font-semibold">Commercial Broker</div>
+                      <div className="text-slate-600 text-[10px]">$3.2M annual premium</div>
+                    </div>
+                  </div>
+                </GlassCard>
               </div>
-              {/* Calendly Embed — replace URL with your actual Calendly link */}
-              <div className="rounded-xl overflow-hidden border border-white/[0.06]">
-                <iframe
-                  src="https://calendly.com/interceptarchitecture/strategy-call?hide_gdpr_banner=1&primary_color=06B6D4"
-                  width="100%"
-                  height="700"
-                  frameBorder="0"
-                  title="Schedule Strategy Call"
-                  className="w-full min-h-[520px] sm:min-h-[600px] md:min-h-[700px] bg-[#0B1120]"
-                  style={{ border: 'none' }}
-                />
+ 
+              {/* Right — Calendly embed */}
+              <div className="md:col-span-3">
+                <GlassCard className="p-3 sm:p-4" hover={false}>
+                  <div className="text-center mb-3">
+                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 uppercase tracking-widest text-xs font-semibold">
+                      <Phone size={12} />
+                      Select Your Time
+                    </span>
+                  </div>
+                  {/* Calendly Embed — replace URL with your actual Calendly link */}
+                  <div className="rounded-xl overflow-hidden border border-white/[0.06]">
+                    <iframe
+                      src="https://calendly.com/interceptarchitecture/strategy-call?hide_gdpr_banner=1&primary_color=06B6D4"
+                      width="100%"
+                      height="680"
+                      frameBorder="0"
+                      title="Schedule Strategy Call"
+                      className="w-full min-h-[520px] sm:min-h-[600px] md:min-h-[680px] bg-[#0B1120]"
+                      style={{ border: 'none' }}
+                    />
+                  </div>
+                </GlassCard>
               </div>
-            </GlassCard>
+            </div>
           </motion.div>
  
           <div className="mt-8 flex items-center justify-center gap-2 text-slate-500 text-xs">
