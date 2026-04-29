@@ -303,20 +303,7 @@ export default function InterceptLandingPage() {
   }, []);
 
   /* ── VSL STATE ── */
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [videoSlide, setVideoSlide] = useState(0);
-  const videoSlideCount = 6;
-
-  useEffect(() => {
-    if (!isVideoPlaying) { setVideoSlide(0); return; }
-    const timer = setInterval(() => {
-      setVideoSlide((prev) => {
-        if (prev >= videoSlideCount - 1) { clearInterval(timer); return prev; }
-        return prev + 1;
-      });
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [isVideoPlaying]);
+  /* ── VIDEO STATE (removed — using HTML5 video now) ── */
 
   /* ── DIAGNOSIS TOOL STATE ── */
   const [activePain, setActivePain] = useState("renewal-trap");
@@ -570,9 +557,7 @@ export default function InterceptLandingPage() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* LEFT: Copy */}
-            <motion.div className="lg:col-span-7 text-center lg:text-left" initial="initial" animate="animate" variants={staggerContainer}>
+          <motion.div className="text-center max-w-4xl mx-auto" initial="initial" animate="animate" variants={staggerContainer}>
               <motion.div variants={fadeUp}>
                 <span className="inline-block mb-5 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 uppercase tracking-widest text-xs font-semibold">
                   <Radar size={12} className="inline mr-1.5 -mt-0.5" />
@@ -585,37 +570,27 @@ export default function InterceptLandingPage() {
                   Without Buying Shared Leads.
                 </span>
               </motion.h1>
-              <motion.p variants={fadeUp} className="mt-5 text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              <motion.p variants={fadeUp} className="mt-6 text-base sm:text-lg md:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
                 Intent-Signal Scraping uses verified ERISA, FMCSA, and DOT regulatory data to intercept high-premium accounts exactly 60 days before renewal — before your competitors even know they exist.
               </motion.p>
 
-              {/* CTAs */}
-              <motion.div variants={fadeUp} className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              {/* CTA */}
+              <motion.div variants={fadeUp} className="mt-10">
                 <motion.a
                   href="#territory"
                   onClick={(e) => { e.preventDefault(); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center justify-center gap-3 px-7 py-4 rounded-xl bg-cyan-500 text-white font-bold text-base sm:text-lg shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] hover:bg-cyan-400 transition-colors"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-cyan-500 text-white font-bold text-lg shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] hover:bg-cyan-400 transition-colors"
                 >
                   <ShieldCheck size={20} strokeWidth={1.5} />
                   Check Territory Availability
                   <ArrowRight size={20} strokeWidth={1.5} />
                 </motion.a>
-                <motion.a
-                  href="#roi-calculator"
-                  onClick={(e) => { e.preventDefault(); document.getElementById("roi-calculator")?.scrollIntoView({ behavior: "smooth" }); }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl border border-white/10 text-slate-300 font-semibold text-base hover:bg-white/5 hover:border-white/20 transition-all"
-                >
-                  <Calculator size={18} strokeWidth={1.5} />
-                  Calculate Your ROI
-                </motion.a>
               </motion.div>
 
               {/* TRUST ELEMENTS */}
-              <motion.div variants={fadeUp} className="mt-8 flex flex-col items-center lg:items-start gap-3">
+              <motion.div variants={fadeUp} className="mt-10 flex flex-col items-center gap-4">
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-3">
                     {[...Array(6)].map((_, i) => (
@@ -624,7 +599,7 @@ export default function InterceptLandingPage() {
                   </div>
                   <span className="text-slate-400 text-xs sm:text-sm ml-2">Trusted by <span className="text-white font-semibold">200+</span> Elite Commercial Brokers</span>
                 </div>
-                <div className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3">
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                   {[
                     { icon: ShieldCheck, label: "256-Bit Encrypted" },
                     { icon: Lock, label: "Territory-Locked" },
@@ -638,53 +613,7 @@ export default function InterceptLandingPage() {
                   ))}
                 </div>
               </motion.div>
-            </motion.div>
-
-            {/* RIGHT: Founder Image — Clean Professional */}
-            <motion.div
-              className="lg:col-span-5 flex justify-center lg:justify-end"
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.3 }}
-            >
-              <div className="relative">
-                {/* Subtle glow behind */}
-                <div className="absolute -inset-6 bg-gradient-to-br from-cyan-500/15 via-blue-500/8 to-transparent rounded-3xl blur-3xl pointer-events-none" />
-
-                {/* Main image card */}
-                <div className="relative w-52 sm:w-60 md:w-72 lg:w-80 rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_0_80px_-20px_rgba(6,182,212,0.25)]">
-                  {/* Image */}
-                  <div className="relative bg-gradient-to-b from-[#0d1525] via-[#0B1120] to-black">
-                    <img
-                      src={FOUNDER_IMG}
-                      alt="Saad — Founder, Intercept Architecture"
-                      className="w-full h-auto object-cover object-top"
-                    />
-                    {/* Bottom gradient fade */}
-                    <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#0B1120] via-[#0B1120]/80 to-transparent" />
-                  </div>
-
-                  {/* Info bar at bottom */}
-                  <div className="bg-[#0B1120] px-5 py-4 border-t border-white/[0.05]">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                          <span className="text-white font-bold text-sm tracking-wide">Saad</span>
-                        </div>
-                        <span className="text-slate-500 text-xs mt-0.5 block">Founder & Chief Architect</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-cyan-400 font-mono font-bold text-xs">200+</div>
-                        <div className="text-slate-600 text-[9px] uppercase tracking-wider">Territories</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </motion.div>
-          </div>
+          </motion.div>
 
           {/* POWER OF ONE — full width below */}
           <motion.div
@@ -702,7 +631,7 @@ export default function InterceptLandingPage() {
         </div>
       </section>
 
-      {/* ════════════════════ VSL SECTION — Stats Video ════════════════════ */}
+      {/* ════════════════════ STRATEGY BREAKDOWN — HTML5 Video ════════════════════ */}
       <section className="py-16 md:py-24 bg-slate-950 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
@@ -710,343 +639,66 @@ export default function InterceptLandingPage() {
               <Play size={12} className="inline mr-1.5 -mt-0.5" />
               Strategy Breakdown
             </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tighter text-white">See Why 200+ Brokers Chose This Weapon</h2>
-            <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">The commercial insurance market is under siege. These numbers tell the story.</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tighter text-white">Architecting the Silent Sales Floor</h2>
+            <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">Watch the full strategy breakdown. See exactly how the Commercial Reconnaissance Engine intercepts $150K+ accounts before your competitors know they exist.</p>
           </div>
 
-          {/* Stats Dashboard Video — click to play full VSL */}
-          <div className="max-w-5xl mx-auto">
-            <div
-              onClick={() => setIsVideoPlaying(true)}
-              className="relative rounded-2xl overflow-hidden cursor-pointer group border border-white/[0.08] shadow-[0_0_60px_-20px_rgba(6,182,212,0.15)]"
-            >
-              {/* Background */}
-              <div className="bg-gradient-to-br from-[#0a0f1c] via-[#0B1120] to-[#070b14] p-6 sm:p-8 md:p-10">
-                {/* Top bar — simulated dashboard */}
-                <div className="flex items-center justify-between mb-6 sm:mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="flex gap-1.5">
-                      <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-                      <div className="w-3 h-3 rounded-full bg-green-500/60" />
-                    </div>
-                    <span className="text-slate-600 font-mono text-xs hidden sm:block">intercept-intelligence-dashboard.exe</span>
+          {/* HTML5 Video Player */}
+          <div className="max-w-4xl mx-auto">
+            <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_0_60px_-20px_rgba(6,182,212,0.15)] bg-gradient-to-br from-[#0a0f1c] via-[#0B1120] to-[#070b14]">
+              {/* Top bar — cinema style */}
+              <div className="bg-slate-800/30 px-4 py-2.5 flex items-center justify-between border-b border-white/5">
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500/60" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
+                    <div className="w-3 h-3 rounded-full bg-green-500/60" />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-                    <span className="text-red-400/80 font-mono text-[10px] uppercase tracking-wider">Live Market Data</span>
-                  </div>
+                  <span className="text-slate-600 font-mono text-xs hidden sm:block">strategy-breakdown.mp4</span>
                 </div>
-
-                {/* Main Stats Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-                  {[
-                    { label: "Accounts Lost to Direct Writers", value: "$2.4B", sublabel: "Annual Industry Loss", color: "text-red-400", border: "border-red-500/20", bg: "bg-red-500/5" },
-                    { label: "Avg Lifetime Commission Lost", value: "$180K", sublabel: "Per Account Stolen", color: "text-red-400", border: "border-red-500/20", bg: "bg-red-500/5" },
-                    { label: "Broker Revenue Intercepted", value: "$12M+", sublabel: "Via Our Engine", color: "text-cyan-400", border: "border-cyan-500/20", bg: "bg-cyan-500/5" },
-                    { label: "Avg ROI Per Partner", value: "847%", sublabel: "First 12 Months", color: "text-emerald-400", border: "border-emerald-500/20", bg: "bg-emerald-500/5" },
-                  ].map((stat, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.15 }}
-                      className={`p-4 rounded-xl border ${stat.border} ${stat.bg}`}
-                    >
-                      <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-widest font-semibold mb-2">{stat.label}</div>
-                      <div className={`font-mono font-extrabold text-2xl sm:text-3xl md:text-4xl ${stat.color}`}>{stat.value}</div>
-                      <div className="text-slate-600 text-[10px] sm:text-xs mt-1">{stat.sublabel}</div>
-                    </motion.div>
-                  ))}
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                  <span className="text-cyan-400/70 font-mono text-[10px] uppercase tracking-wider">Intercept Architecture</span>
                 </div>
-
-                {/* Bottom Section — Threat vs Defense */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6">
-                  {/* Threat Panel */}
-                  <div className="p-4 sm:p-5 rounded-xl bg-red-500/[0.03] border border-red-500/10">
-                    <div className="flex items-center gap-2 mb-3">
-                      <AlertTriangle size={14} className="text-red-400" />
-                      <span className="text-red-400 text-xs font-bold uppercase tracking-wider">The Direct Writer Assault</span>
-                    </div>
-                    <div className="space-y-2">
-                      {[
-                        "Nationwide scraping renewal dates from DOT data",
-                        "Travelers undercutting by 15% — 60 days before expiry",
-                        "29 consecutive quarters of hard market rate increases",
-                        "Market Blocking: competitors locking out your carriers",
-                      ].map((threat, i) => (
-                        <div key={i} className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-red-400/60 mt-1.5 flex-shrink-0" />
-                          <span className="text-slate-400 text-xs sm:text-sm leading-relaxed">{threat}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Defense Panel */}
-                  <div className="p-4 sm:p-5 rounded-xl bg-cyan-500/[0.03] border border-cyan-500/10">
-                    <div className="flex items-center gap-2 mb-3">
-                      <ShieldCheck size={14} className="text-cyan-400" />
-                      <span className="text-cyan-400 text-xs font-bold uppercase tracking-wider">Your Interception Perimeter</span>
-                    </div>
-                    <div className="space-y-2">
-                      {[
-                        "ERISA Form 5500 scraping — employee counts & budgets",
-                        "FMCSA bond drops — carrier compliance signals",
-                        "Dedicated setter: sub-5-minute response, BANT qualified",
-                        "50-mile territory lockout — competitors permanently blocked",
-                      ].map((defense, i) => (
-                        <div key={i} className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-cyan-400/60 mt-1.5 flex-shrink-0" />
-                          <span className="text-slate-400 text-xs sm:text-sm leading-relaxed">{defense}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Power of One bar */}
-                <div className="p-4 rounded-xl bg-emerald-500/[0.03] border border-emerald-500/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <TrendingUp size={18} className="text-emerald-400" />
-                    <span className="text-slate-300 text-sm font-semibold">ONE account = $15,000+/yr commission. System cost: $2,500–$7,500/mo.</span>
-                  </div>
-                  <span className="text-emerald-400 font-mono font-bold text-sm whitespace-nowrap">ROI from Day 1</span>
-                </div>
-
-                {/* Play overlay */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-20 h-20 rounded-full bg-cyan-500/30 border-2 border-cyan-400/50 flex items-center justify-center backdrop-blur-sm"
-                  >
-                    <Play size={32} className="text-white ml-1" fill="currentColor" />
-                  </motion.div>
-                </div>
+              </div>
+              {/* Video */}
+              <div className="p-2 sm:p-3">
+                <video
+                  src="/Architecting_the_Silent_Sales_Floor.mp4"
+                  controls
+                  className="w-full rounded-xl shadow-2xl"
+                  poster=""
+                  preload="metadata"
+                />
               </div>
             </div>
-            <p className="text-center text-slate-600 text-xs mt-4">Click to watch the full 4-minute strategy breakdown →</p>
+          </div>
+
+          {/* Key stats below video */}
+          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            {[
+              { label: "Accounts Lost to Direct Writers", value: "$2.4B", sublabel: "Annual Industry Loss", color: "text-red-400", border: "border-red-500/20", bg: "bg-red-500/5" },
+              { label: "Avg Lifetime Commission Lost", value: "$180K", sublabel: "Per Account Stolen", color: "text-red-400", border: "border-red-500/20", bg: "bg-red-500/5" },
+              { label: "Broker Revenue Intercepted", value: "$12M+", sublabel: "Via Our Engine", color: "text-cyan-400", border: "border-cyan-500/20", bg: "bg-cyan-500/5" },
+              { label: "Avg ROI Per Partner", value: "847%", sublabel: "First 12 Months", color: "text-emerald-400", border: "border-emerald-500/20", bg: "bg-emerald-500/5" },
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={`p-4 rounded-xl border ${stat.border} ${stat.bg}`}
+              >
+                <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-widest font-semibold mb-2">{stat.label}</div>
+                <div className={`font-mono font-extrabold text-2xl sm:text-3xl ${stat.color}`}>{stat.value}</div>
+                <div className="text-slate-600 text-[10px] sm:text-xs mt-1">{stat.sublabel}</div>
+              </motion.div>
+            ))}
           </div>
         </div>
-
-        {/* VSL — Cinematic Animated Video */}
-        <AnimatePresence>
-          {isVideoPlaying && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[200] bg-black flex items-center justify-center"
-              onClick={() => setIsVideoPlaying(false)}
-            >
-              <div className="w-full h-full max-w-6xl max-h-[80vh] mx-auto flex items-center justify-center p-4 sm:p-8" onClick={(e) => e.stopPropagation()}>
-                <div className="w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black relative">
-                  {/* Progress bar */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-white/5 z-20">
-                    <motion.div
-                      className="h-full bg-cyan-500"
-                      initial={{ width: "0%" }}
-                      animate={{ width: `${((videoSlide + 1) / videoSlideCount) * 100}%` }}
-                      transition={{ duration: 0.5 }}
-                    />
-                  </div>
-
-                  {/* Slide content */}
-                  <AnimatePresence mode="wait">
-                    {/* SLIDE 0: Opening */}
-                    {videoSlide === 0 && (
-                      <motion.div key="s0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
-                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-black via-slate-950 to-black p-8"
-                      >
-                        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.3, type: "spring" }}>
-                          <span className="text-cyan-400 uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">Intercept Architecture Presents</span>
-                        </motion.div>
-                        <motion.h2 initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.8 }}
-                          className="mt-6 text-2xl sm:text-4xl md:text-5xl font-extrabold text-white text-center tracking-tight leading-tight"
-                        >
-                          The Silent War Against<br />
-                          <span className="text-red-400">Independent Brokers</span>
-                        </motion.h2>
-                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
-                          className="mt-4 text-slate-500 text-sm text-center"
-                        >A 4-minute intelligence briefing</motion.p>
-                      </motion.div>
-                    )}
-
-                    {/* SLIDE 1: The Problem — Loss Stats */}
-                    {videoSlide === 1 && (
-                      <motion.div key="s1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
-                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-red-950/30 via-black to-black p-6 sm:p-10"
-                      >
-                        <motion.div initial={{ scale: 2, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.3, type: "spring" }}
-                          className="text-center"
-                        >
-                          <span className="text-red-400 uppercase tracking-widest text-xs font-semibold">Every Year, Direct Writers Steal</span>
-                          <div className="mt-4 text-5xl sm:text-7xl md:text-8xl font-mono font-black text-red-400">$2.4B</div>
-                          <div className="mt-2 text-slate-400 text-sm sm:text-lg">in premium from independent brokers</div>
-                        </motion.div>
-                        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1.5 }}
-                          className="mt-8 grid grid-cols-3 gap-4 sm:gap-8 text-center"
-                        >
-                          <div>
-                            <div className="text-red-400 font-mono font-bold text-xl sm:text-3xl">$180K</div>
-                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">Lifetime commission<br />lost per account</div>
-                          </div>
-                          <div>
-                            <div className="text-red-400 font-mono font-bold text-xl sm:text-3xl">60</div>
-                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">Days before renewal<br />they strike</div>
-                          </div>
-                          <div>
-                            <div className="text-red-400 font-mono font-bold text-xl sm:text-3xl">15%</div>
-                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">Lower quotes to<br />steal your clients</div>
-                          </div>
-                        </motion.div>
-                      </motion.div>
-                    )}
-
-                    {/* SLIDE 2: The Broken Solutions */}
-                    {videoSlide === 2 && (
-                      <motion.div key="s2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
-                        className="absolute inset-0 flex flex-col items-center justify-center bg-black p-6 sm:p-10"
-                      >
-                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-slate-500 uppercase tracking-widest text-xs font-semibold mb-6">
-                          What You Have Already Tried
-                        </motion.span>
-                        <div className="space-y-3 sm:space-y-4 max-w-lg w-full">
-                          {[
-                            { text: "Shared internet leads — sold to 50 agents simultaneously", delay: 0.3 },
-                            { text: "BNI breakfasts — 156 hours/year, less than 1 referral/month", delay: 0.8 },
-                            { text: "AI SDRs — hallucinated coverages, burned your domain", delay: 1.3 },
-                            { text: "Overseas BPOs — fake live transfers, wrong business data", delay: 1.8 },
-                          ].map((item, i) => (
-                            <motion.div key={i} initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: item.delay }}
-                              className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-red-500/5 border border-red-500/10"
-                            >
-                              <X size={18} className="text-red-400 flex-shrink-0" />
-                              <span className="text-slate-300 text-xs sm:text-sm">{item.text}</span>
-                            </motion.div>
-                          ))}
-                        </div>
-                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }}
-                          className="mt-6 text-slate-500 text-xs text-center"
-                        >None of these work because none of them use the data that actually matters.</motion.p>
-                      </motion.div>
-                    )}
-
-                    {/* SLIDE 3: The Mechanism */}
-                    {videoSlide === 3 && (
-                      <motion.div key="s3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
-                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-cyan-950/20 via-black to-black p-6 sm:p-10"
-                      >
-                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-cyan-400 uppercase tracking-widest text-xs font-semibold mb-4">
-                          The Commercial Reconnaissance Engine™
-                        </motion.span>
-                        <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}
-                          className="text-xl sm:text-3xl font-extrabold text-white text-center mb-8"
-                        >We Intercept. Not Generate.</motion.h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl w-full">
-                          {[
-                            { phase: "01", title: "EXTRACT", desc: "ERISA Form 5500, FMCSA bonds, DOT registrations", icon: "📡", delay: 0.6 },
-                            { phase: "02", title: "INTERCEPT", desc: "n8n webhooks trigger 60 days before renewal", icon: "⚡", delay: 1.0 },
-                            { phase: "03", title: "CONVERT", desc: "Dedicated setter, BANT qualified, you close", icon: "🎯", delay: 1.4 },
-                          ].map((p, i) => (
-                            <motion.div key={i} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: p.delay }}
-                              className="p-4 sm:p-5 rounded-xl bg-cyan-500/5 border border-cyan-500/10 text-center"
-                            >
-                              <div className="text-2xl mb-2">{p.icon}</div>
-                              <div className="text-cyan-400 font-mono text-xs font-bold">PHASE {p.phase}</div>
-                              <div className="text-white font-bold text-sm mt-1">{p.title}</div>
-                              <div className="text-slate-500 text-[10px] sm:text-xs mt-1">{p.desc}</div>
-                            </motion.div>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {/* SLIDE 4: The ROI Math */}
-                    {videoSlide === 4 && (
-                      <motion.div key="s4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
-                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-emerald-950/20 via-black to-black p-6 sm:p-10"
-                      >
-                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-emerald-400 uppercase tracking-widest text-xs font-semibold mb-4">
-                          The Power of One Account
-                        </motion.span>
-                        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.4 }}
-                          className="text-center mb-8"
-                        >
-                          <div className="text-slate-500 text-sm">System cost: $4,500/mo</div>
-                          <div className="mt-2 text-slate-500 text-sm">ONE account yields:</div>
-                          <div className="mt-3 text-5xl sm:text-7xl font-mono font-black text-emerald-400">$15,000+</div>
-                          <div className="text-slate-400 text-sm mt-1">annual recurring commission</div>
-                        </motion.div>
-                        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1.2 }}
-                          className="grid grid-cols-3 gap-4 sm:gap-8 text-center max-w-lg"
-                        >
-                          <div>
-                            <div className="text-emerald-400 font-mono font-bold text-lg sm:text-2xl">$75K</div>
-                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">5-Year<br />Lifetime Value</div>
-                          </div>
-                          <div>
-                            <div className="text-cyan-400 font-mono font-bold text-lg sm:text-2xl">$150K</div>
-                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">Added to PE<br />Exit Valuation</div>
-                          </div>
-                          <div>
-                            <div className="text-white font-mono font-bold text-lg sm:text-2xl">13x</div>
-                            <div className="text-slate-600 text-[10px] sm:text-xs mt-1">EBITDA Multiple<br />Algorithmic Growth</div>
-                          </div>
-                        </motion.div>
-                      </motion.div>
-                    )}
-
-                    {/* SLIDE 5: CTA */}
-                    {videoSlide === 5 && (
-                      <motion.div key="s5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
-                        className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-cyan-950/20 via-black to-black p-6 sm:p-10"
-                      >
-                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.3 }}
-                          className="text-center"
-                        >
-                          <div className="text-cyan-400 uppercase tracking-widest text-xs font-semibold mb-6">One Territory. One Broker. First Come, First Served.</div>
-                          <h3 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
-                            Your Competitors Are<br />
-                            <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 text-transparent bg-clip-text">Watching This Too.</span>
-                          </h3>
-                          <p className="mt-4 text-slate-400 text-sm max-w-md mx-auto">When you secure your territory, your local competitors are permanently locked out.</p>
-                          <motion.button
-                            initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1 }}
-                            onClick={(e) => { e.stopPropagation(); setIsVideoPlaying(false); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
-                            className="mt-8 inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-cyan-500 text-white font-bold text-lg shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] hover:bg-cyan-400 transition-colors"
-                          >
-                            <ShieldCheck size={20} />
-                            Check Territory Availability
-                            <ArrowRight size={20} />
-                          </motion.button>
-                        </motion.div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  {/* Slide navigation dots */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                    {[...Array(videoSlideCount)].map((_, i) => (
-                      <button key={i} onClick={(e) => { e.stopPropagation(); setVideoSlide(i); }}
-                        className={`w-2 h-2 rounded-full transition-all ${i === videoSlide ? "bg-cyan-400 w-6" : "bg-white/20 hover:bg-white/40"}`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Close button */}
-              <button onClick={() => setIsVideoPlaying(false)} className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/40 hover:text-white z-30 p-2">
-                <X size={28} />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </section>
+
 
       {/* ════════════════════ SECTION 3: PROBLEM DIAGNOSIS TOOL ════════════════════ */}
       <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden" style={dotBg2}>
@@ -1464,41 +1116,74 @@ export default function InterceptLandingPage() {
       </section>
 
       {/* ════════════════════ SECTION 10: OPERATIONAL RELIEF ════════════════════ */}
-      <section className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading badge="Founder Removal" title="You Close. We Handle Everything Else." subtitle="Complete division of labor — from data extraction to booked meeting." />
-          <div className="max-w-4xl mx-auto space-y-4">
+      <section className="py-28 md:py-36 bg-black border-t border-white/5 relative overflow-hidden" style={dotBg}>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/[0.02] rounded-full blur-[150px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <SectionHeading badge="Founder Removal" title="You Close. We Handle Everything Else." subtitle="Five synchronized phases. Zero manual intervention. Complete operational liberation." />
+          <div className="max-w-4xl mx-auto">
+            {/* Connected timeline */}
             {[
-              { icon: Database, step: "01", title: "We Scrape", desc: "Our algorithms extract intent signals from ERISA, FMCSA, and DOT databases in your territory." },
-              { icon: Zap, step: "02", title: "We Trigger", desc: "N8N webhooks deploy hyper-targeted email sequences and ABM ads 60 days before renewal." },
-              { icon: MessageSquare, step: "03", title: "We Engage", desc: "Your dedicated setter answers all replies in under 5 minutes using omni-channel playbooks." },
-              { icon: Filter, step: "04", title: "We Qualify", desc: "Strict BANT filter eliminates price-shoppers. Only verified decision-makers reach your calendar." },
-              { icon: Trophy, step: "05", title: "You Close", desc: "You walk into a Zoom room with a pre-qualified CEO who is ready to move their book. You do what you do best." },
+              { icon: Database, step: "01", title: "We Scrape", desc: "Our algorithms extract intent signals from ERISA, FMCSA, and DOT databases exclusively within your territory. Employee counts, premium budgets, and exact fiscal year cycles — delivered 60–90 days before renewal.", color: "cyan" },
+              { icon: Zap, step: "02", title: "We Trigger", desc: "Custom n8n webhooks deploy hyper-targeted email sequences from protected secondary domains and ABM ads surrounding the CEO and executive team — precisely 60 days before the renewal window opens.", color: "cyan" },
+              { icon: MessageSquare, step: "03", title: "We Engage", desc: "Your dedicated setter answers all replies in under 5 minutes using omni-channel conversational playbooks. Every cold reply is transitioned into a genuine business conversation.", color: "cyan" },
+              { icon: Filter, step: "04", title: "We Qualify", desc: "Strict BANT qualification filter eliminates price-shoppers and administrative assistants. Budget, Authority, Need, Timeline — verified before any meeting touches your calendar.", color: "cyan" },
+              { icon: Trophy, step: "05", title: "You Close", desc: "You walk into a Zoom room with a pre-qualified CEO who is ready to move their book of business. You do what you do best. Everything else has already been handled.", color: "emerald" },
             ].map((step, i) => {
               const ref = useRef(null);
               const inView = useInView(ref, { once: true, margin: "-50px" });
+              const isLast = i === 4;
               return (
-                <motion.div
-                  key={i} ref={ref}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ type: "spring", stiffness: 100, damping: 20, delay: i * 0.1 }}
-                >
-                  <GlassCard className="p-6 flex items-start gap-5">
-                    <div className="flex-shrink-0">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${i === 4 ? "bg-emerald-500/10 border border-emerald-500/20" : "bg-cyan-500/10 border border-cyan-500/20"}`}>
-                        <step.icon size={22} strokeWidth={1.5} className={i === 4 ? "text-emerald-400" : "text-cyan-400"} />
+                <div key={i} className="relative">
+                  {/* Vertical connector line */}
+                  {i < 4 && (
+                    <div className="absolute left-[27px] top-[72px] w-px h-4 bg-gradient-to-b from-cyan-500/30 to-transparent hidden sm:block" />
+                  )}
+                  <motion.div
+                    ref={ref}
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={inView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ type: "spring", stiffness: 100, damping: 20, delay: i * 0.12 }}
+                    className="mb-4"
+                  >
+                    <div className={`relative rounded-2xl p-5 sm:p-6 border transition-all duration-500 group hover:border-${isLast ? 'emerald' : 'cyan'}-500/30 ${
+                      isLast
+                        ? "bg-gradient-to-r from-emerald-500/[0.04] via-emerald-500/[0.02] to-transparent border-emerald-500/10"
+                        : "bg-white/[0.015] border-white/[0.06]"
+                    }`}>
+                      {/* Top shine */}
+                      <div className={`absolute top-0 left-0 right-0 h-px ${isLast ? "bg-gradient-to-r from-emerald-500/30 via-emerald-400/10 to-transparent" : "bg-gradient-to-r from-white/[0.06] via-white/[0.02] to-transparent"}`} />
+
+                      <div className="flex items-start gap-4 sm:gap-6">
+                        {/* Step number + icon */}
+                        <div className="flex-shrink-0 relative">
+                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
+                            isLast
+                              ? "bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_20px_-5px_rgba(16,185,129,0.3)]"
+                              : "bg-cyan-500/10 border border-cyan-500/20 group-hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)]"
+                          } transition-shadow`}>
+                            <step.icon size={22} strokeWidth={1.5} className={isLast ? "text-emerald-400" : "text-cyan-400"} />
+                          </div>
+                          <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-mono font-black ${
+                            isLast ? "bg-emerald-500 text-white" : "bg-slate-800 text-cyan-400 border border-cyan-500/30"
+                          }`}>{step.step}</span>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1">
+                          <h3 className={`text-lg sm:text-xl font-bold ${isLast ? "text-emerald-400" : "text-white"}`}>{step.title}</h3>
+                          <p className="mt-1.5 text-slate-400 text-sm leading-relaxed">{step.desc}</p>
+                        </div>
+
+                        {/* Arrow indicator */}
+                        {!isLast && (
+                          <div className="hidden sm:flex items-center">
+                            <ChevronDown size={18} className="text-cyan-500/30" />
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <div>
-                      <div className="flex items-center gap-3 mb-1">
-                        <span className={`font-mono text-xs ${i === 4 ? "text-emerald-500" : "text-cyan-500"}`}>{step.step}</span>
-                        <h3 className="text-lg font-bold text-white">{step.title}</h3>
-                      </div>
-                      <p className="text-slate-400 leading-relaxed">{step.desc}</p>
-                    </div>
-                  </GlassCard>
-                </motion.div>
+                  </motion.div>
+                </div>
               );
             })}
           </div>
@@ -1737,118 +1422,209 @@ export default function InterceptLandingPage() {
       </section>
 
       {/* ════════════════════ SECTION 14: PRICING TIERS ════════════════════ */}
-      <section id="pricing" className="py-24 md:py-32 bg-black border-t border-white/5 relative overflow-hidden" style={dotBg}>
-        <div className="absolute top-20 left-0 w-96 h-96 bg-cyan-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-20 right-0 w-80 h-80 bg-blue-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <SectionHeading badge="Investment" title="Select Your Infrastructure Level" subtitle="Every tier is backed by performance guarantees. One account pays for the year." />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-start">
-            {PRICING_TIERS.map((tier, i) => (
-              <motion.div
-                key={tier.id}
-                onHoverStart={() => setHoveredTier(i)}
-                onHoverEnd={() => setHoveredTier(null)}
-                className={`relative transition-all duration-300 ${tier.popular ? "md:scale-105 z-10" : ""} ${hoveredTier !== null && hoveredTier !== i ? "opacity-60 blur-[0.5px]" : ""}`}
-              >
-                {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-cyan-500 text-white text-xs font-bold uppercase tracking-wider z-20">
-                    Most Popular
-                  </div>
-                )}
-                <div className={`rounded-2xl p-6 sm:p-8 border h-full flex flex-col ${tier.popular ? "bg-white/[0.04] border-cyan-500/40 shadow-[0_0_40px_-10px_rgba(6,182,212,0.4)] ring-2 ring-cyan-500/30" : "bg-white/[0.02] border-white/[0.08]"}`}>
-                  <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">{tier.name}</span>
-                  <div className="mt-3 flex items-baseline gap-1">
-                    <span className="text-4xl font-mono font-extrabold text-white">${tier.price}</span>
-                    <span className="text-slate-500 text-sm">/month</span>
-                  </div>
-                  <p className="mt-2 text-slate-400 text-xs sm:text-sm leading-relaxed">{tier.subtitle}</p>
-                  <div className="mt-2 text-xs text-slate-600">Total value: <span className="text-cyan-400 font-semibold">${tier.totalValue}/mo</span></div>
+      <section id="pricing" className="py-28 md:py-36 bg-black border-t border-white/5 relative overflow-hidden">
+        {/* Premium background effects */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-cyan-500/[0.02] rounded-full blur-[150px]" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/[0.015] rounded-full blur-[120px]" />
+          <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-emerald-500/[0.01] rounded-full blur-[100px]" />
+        </div>
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(rgba(6,182,212,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,0.4) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
 
-                  <div className="mt-5 space-y-2.5 flex-1">
-                    {tier.features.map((f, fi) => (
-                      <div key={fi} className="flex items-start gap-2 text-xs sm:text-sm">
-                        <Check size={14} className="text-cyan-400 mt-0.5 flex-shrink-0" strokeWidth={2} />
-                        <span className="text-slate-300">{f}</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-20">
+            <span className="inline-block mb-5 px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 text-cyan-400 uppercase tracking-[0.2em] text-xs font-bold">
+              Select Your Infrastructure
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-white leading-tight">
+              Deploy Your Acquisition<br />
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-emerald-400 text-transparent bg-clip-text">Architecture.</span>
+            </h2>
+            <p className="mt-5 text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">One account pays for the year. Everything after is compounding profit and enterprise equity.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6 max-w-[1200px] mx-auto items-stretch">
+            {PRICING_TIERS.map((tier, i) => {
+              const isPopular = tier.popular;
+              const isWhite = tier.ctaStyle === "white";
+              return (
+                <motion.div
+                  key={tier.id}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.15 }}
+                  onHoverStart={() => setHoveredTier(i)}
+                  onHoverEnd={() => setHoveredTier(null)}
+                  className={`relative group transition-all duration-500 ${isPopular ? "lg:-mt-6 lg:mb-0 z-10" : ""} ${hoveredTier !== null && hoveredTier !== i ? "opacity-50 scale-[0.98]" : ""}`}
+                >
+                  {/* Popular badge */}
+                  {isPopular && (
+                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-30">
+                      <motion.div
+                        animate={{ y: [-2, 2, -2] }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                        className="px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-bold uppercase tracking-wider shadow-[0_0_30px_-5px_rgba(6,182,212,0.5)]"
+                      >
+                        Most Popular
+                      </motion.div>
+                    </div>
+                  )}
+
+                  {/* Card */}
+                  <div className={`relative h-full rounded-3xl overflow-hidden transition-all duration-500 ${
+                    isPopular
+                      ? "bg-gradient-to-b from-cyan-500/[0.08] via-slate-900/80 to-slate-950 border-2 border-cyan-500/30 shadow-[0_0_80px_-20px_rgba(6,182,212,0.3)] group-hover:shadow-[0_0_100px_-15px_rgba(6,182,212,0.5)]"
+                      : isWhite
+                        ? "bg-gradient-to-b from-white/[0.04] via-slate-900/60 to-slate-950 border border-white/[0.1] group-hover:border-white/20"
+                        : "bg-gradient-to-b from-white/[0.02] via-slate-950 to-black border border-white/[0.06] group-hover:border-cyan-500/20"
+                  }`}>
+                    {/* Top shine line */}
+                    <div className={`h-[1px] w-full ${isPopular ? "bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" : "bg-gradient-to-r from-transparent via-white/10 to-transparent"}`} />
+
+                    <div className="p-7 sm:p-8 flex flex-col h-full">
+                      {/* Tier header */}
+                      <div className="mb-6">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className={`w-2 h-2 rounded-full ${isPopular ? "bg-cyan-400" : isWhite ? "bg-white" : "bg-slate-500"}`} />
+                          <span className={`text-[10px] uppercase tracking-[0.25em] font-bold ${isPopular ? "text-cyan-400" : "text-slate-500"}`}>{tier.name}</span>
+                        </div>
+
+                        {/* Price */}
+                        <div className="flex items-end gap-1.5">
+                          <span className="text-slate-500 text-lg font-light mt-auto">$</span>
+                          <span className={`text-5xl sm:text-6xl font-mono font-black tracking-tighter leading-none ${isPopular ? "text-white" : "text-slate-200"}`}>{tier.price}</span>
+                          <span className="text-slate-600 text-sm mb-1.5 font-light">/mo</span>
+                        </div>
+
+                        <p className="mt-3 text-slate-400 text-xs sm:text-sm leading-relaxed">{tier.subtitle}</p>
+
+                        {/* Value badge */}
+                        <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
+                          <span className="text-emerald-400 font-mono text-xs font-bold">${tier.totalValue}/mo value</span>
+                        </div>
                       </div>
-                    ))}
-                    {tier.bonuses.length > 0 && (
-                      <div className="pt-3 border-t border-white/5">
-                        <span className="text-[10px] text-emerald-400 uppercase tracking-widest font-semibold">Bonuses</span>
-                        {tier.bonuses.map((b, bi) => (
-                          <div key={bi} className="flex items-start gap-2 text-xs sm:text-sm mt-2">
-                            <Star size={12} className="text-emerald-400 mt-0.5 flex-shrink-0" strokeWidth={2} />
-                            <span className="text-slate-400">{b}</span>
+
+                      {/* Divider */}
+                      <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent mb-6" />
+
+                      {/* Features */}
+                      <div className="space-y-3 flex-1">
+                        {tier.features.map((f, fi) => (
+                          <div key={fi} className="flex items-start gap-3">
+                            <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 ${isPopular ? "bg-cyan-500/15" : "bg-white/[0.04]"}`}>
+                              <Check size={11} className={isPopular ? "text-cyan-400" : "text-slate-400"} strokeWidth={2.5} />
+                            </div>
+                            <span className="text-slate-300 text-xs sm:text-sm leading-relaxed">{f}</span>
                           </div>
                         ))}
                       </div>
-                    )}
-                  </div>
 
-                  <div className="mt-5 p-3 rounded-xl bg-white/[0.02] border border-white/5">
-                    <div className="flex items-start gap-2">
-                      <ShieldCheck size={14} className="text-emerald-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-[11px] text-slate-400">{tier.guarantee}</span>
+                      {/* Bonuses */}
+                      {tier.bonuses.length > 0 && (
+                        <div className="mt-5 pt-5 border-t border-white/[0.04]">
+                          <div className="flex items-center gap-2 mb-3">
+                            <Star size={12} className="text-emerald-400" />
+                            <span className="text-[10px] text-emerald-400 uppercase tracking-[0.2em] font-bold">Included Bonuses</span>
+                          </div>
+                          {tier.bonuses.map((b, bi) => (
+                            <div key={bi} className="flex items-start gap-2.5 text-xs mt-2">
+                              <div className="w-1 h-1 rounded-full bg-emerald-400/60 mt-1.5 flex-shrink-0" />
+                              <span className="text-slate-500">{b}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Guarantee */}
+                      <div className="mt-5 p-3.5 rounded-xl bg-emerald-500/[0.03] border border-emerald-500/10">
+                        <div className="flex items-start gap-2.5">
+                          <ShieldCheck size={14} className="text-emerald-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-[11px] text-slate-400 leading-relaxed">{tier.guarantee}</span>
+                        </div>
+                      </div>
+
+                      {/* Scarcity */}
+                      <div className="mt-4 p-3.5 rounded-xl bg-red-500/[0.02] border border-red-500/[0.08]">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                          <span className="text-red-400/80 text-[9px] uppercase tracking-[0.2em] font-bold">{tier.scarcityTitle}</span>
+                        </div>
+                        <p className="text-slate-600 text-[10px] leading-relaxed">{tier.scarcityText}</p>
+                      </div>
+
+                      {/* CTA */}
+                      <motion.a
+                        href="#territory"
+                        onClick={(e) => { e.preventDefault(); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`mt-6 block text-center py-4 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 ${
+                          isPopular
+                            ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] hover:shadow-[0_0_60px_-10px_rgba(6,182,212,0.7)]"
+                            : isWhite
+                              ? "bg-white text-black hover:bg-slate-100 shadow-[0_0_40px_-10px_rgba(255,255,255,0.1)]"
+                              : "border border-white/10 text-slate-300 hover:border-cyan-500/30 hover:text-cyan-400 hover:bg-cyan-500/[0.03]"
+                        }`}
+                      >
+                        {tier.cta}
+                        <ArrowRight size={16} className="inline ml-2 -mt-0.5" />
+                      </motion.a>
                     </div>
                   </div>
-
-                  {/* Scarcity + Urgency blocks */}
-                  <div className="mt-4 space-y-3">
-                    <div className="p-3 rounded-lg bg-red-500/[0.03] border border-red-500/10">
-                      <div className="text-red-400 text-[10px] uppercase tracking-widest font-semibold mb-1">{tier.scarcityTitle}</div>
-                      <p className="text-slate-500 text-[11px] leading-relaxed">{tier.scarcityText}</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-yellow-500/[0.03] border border-yellow-500/10">
-                      <div className="text-yellow-400 text-[10px] uppercase tracking-widest font-semibold mb-1">{tier.urgencyTitle}</div>
-                      <p className="text-slate-500 text-[11px] leading-relaxed">{tier.urgencyText}</p>
-                    </div>
-                  </div>
-
-                  <motion.a
-                    href="#territory"
-                    onClick={(e) => { e.preventDefault(); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`mt-5 block text-center py-4 rounded-xl font-bold text-sm tracking-wide transition-colors ${
-                      tier.ctaStyle === "primary" ? "bg-cyan-500 text-white hover:bg-cyan-400 shadow-[0_0_30px_-5px_rgba(6,182,212,0.4)]"
-                      : tier.ctaStyle === "white" ? "bg-white text-black hover:bg-slate-100"
-                      : "border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10"
-                    }`}
-                  >
-                    {tier.cta}
-                  </motion.a>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
 
-          {/* Price anchoring line */}
-          <p className="mt-10 text-center text-slate-500 text-sm max-w-3xl mx-auto">
-            Hiring a junior producer who quits in 3 months costs $25,000+ in sunk salary alone. Replicating Tier 3 internally requires $300,000+ in annual payroll — a full-stack developer, media buyer, sales rep, and setter. Our complete enterprise infrastructure costs a fraction — and actually performs.
-          </p>
+          {/* Price anchoring */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-14 text-center"
+          >
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/[0.02] border border-white/[0.05]">
+              <AlertTriangle size={14} className="text-yellow-400/60" />
+              <span className="text-slate-500 text-xs sm:text-sm">
+                Hiring a junior producer who quits in 3 months costs <span className="text-white font-semibold">$25,000+</span> in sunk salary. Replicating Tier 3 internally: <span className="text-white font-semibold">$300,000+/yr</span> in payroll.
+              </span>
+            </div>
+          </motion.div>
 
-          {/* Prepay Savings Tables */}
-          <div className="mt-16">
-            <SectionHeading badge="Prepay & Save" title="Lock In Your Rate. Maximize Your Savings." subtitle="Commit quarterly, semi-annually, or annually to unlock bonus months and massive savings." />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {PRICING_TIERS.map((tier) => (
-                <GlassCard key={tier.id} className="p-5" hover={false}>
-                  <div className="text-xs text-cyan-400 uppercase tracking-widest font-semibold mb-4">{tier.name}</div>
-                  <div className="space-y-3">
+          {/* Prepay Savings */}
+          <div className="mt-20">
+            <div className="text-center mb-10">
+              <span className="inline-block mb-3 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 uppercase tracking-[0.2em] text-xs font-bold">Prepay & Save</span>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Lock In Your Rate. Unlock Bonus Months.</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+              {PRICING_TIERS.map((tier, ti) => (
+                <motion.div
+                  key={tier.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: ti * 0.1 }}
+                  className="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-5 hover:border-cyan-500/20 transition-all"
+                >
+                  <div className="text-[10px] text-cyan-400 uppercase tracking-[0.2em] font-bold mb-4">{tier.name}</div>
+                  <div className="space-y-2.5">
                     {tier.prepay.map((row, ri) => (
-                      <div key={ri} className="p-3 rounded-lg bg-white/[0.01] border border-white/5">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-white text-xs font-semibold">{row.period}</span>
-                          <span className="text-emerald-400 text-xs font-mono font-bold">Save {row.pct}</span>
+                      <div key={ri} className="p-3 rounded-xl bg-white/[0.01] border border-white/[0.03] hover:bg-white/[0.02] transition-colors">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-white text-xs font-bold">{row.period}</span>
+                          <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold">{row.pct} OFF</span>
                         </div>
                         <div className="text-[10px] text-slate-500 space-y-0.5">
-                          <div>Pay {row.paid} months → Get <span className="text-cyan-400">{row.free} months free</span> ({row.delivered} months delivered)</div>
-                          <div>Total value: <span className="text-slate-300">{row.value}</span> | You pay: <span className="text-slate-300">{row.payment}</span></div>
-                          <div className="text-emerald-400 font-semibold">You save: {row.save}</div>
+                          <div>Pay {row.paid} → Get <span className="text-cyan-400 font-semibold">{row.free} free</span> ({row.delivered} months total)</div>
+                          <div className="text-emerald-400/80 font-semibold">You save {row.save}</div>
                         </div>
                       </div>
                     ))}
                   </div>
-                </GlassCard>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -1856,67 +1632,152 @@ export default function InterceptLandingPage() {
       </section>
 
       {/* ════════════════════ SECTION 15: GUARANTEE FORTRESS ════════════════════ */}
-      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden" style={dotBg2}>
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
+      <section className="py-28 md:py-36 bg-slate-950 border-t border-white/5 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/[0.04] rounded-full blur-[150px]" />
+        </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <SectionHeading badge="Zero Risk" title="Your Guarantees. Our Commitment. No Exceptions." />
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { title: "Performance Guarantee", text: "5 Qualified Conversations in 30 Days or We Work Free Until You Do.", tiers: "All Tiers", delay: 0 },
-              { title: "Setter KPI Guarantee", text: "Setter KPI Compliance in 14 Days or Free Replacement. No cost. No delay.", tiers: "Tier 2 & 3", delay: 0.15 },
-              { title: "Technical Guarantee", text: "Sub-1-Second Page Load or Complete Free Rebuild. Core Web Vitals guaranteed.", tiers: "Tier 3", delay: 0.3 },
-            ].map((g, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ type: "spring", stiffness: 100, damping: 20, delay: g.delay }}
-              >
-                <GlassCard className="p-8 text-center h-full">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+            <span className="inline-block mb-5 px-5 py-2 rounded-full bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 text-emerald-400 uppercase tracking-[0.2em] text-xs font-bold">
+              Iron-Clad Protection
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tighter text-white leading-tight">
+              We Carry the Risk.<br />
+              <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-400 text-transparent bg-clip-text">You Carry the Profit.</span>
+            </h2>
+          </motion.div>
+
+          {/* Single premium guarantee card */}
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="relative rounded-3xl overflow-hidden"
+            >
+              {/* Border gradient */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-emerald-500/20 via-emerald-500/5 to-transparent p-[1px]">
+                <div className="w-full h-full rounded-3xl bg-slate-950" />
+              </div>
+
+              <div className="relative p-8 sm:p-10 md:p-12">
+                {/* Centered shield icon */}
+                <div className="flex justify-center mb-8">
                   <motion.div
-                    className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto relative"
-                    whileInView={{ scale: [0.8, 1.1, 1] }}
+                    className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 border border-emerald-500/20 flex items-center justify-center"
+                    whileInView={{ scale: [0.8, 1.05, 1] }}
                     viewport={{ once: true }}
-                    transition={{ delay: g.delay + 0.3, duration: 0.6 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
                   >
-                    <ShieldCheck size={28} className="text-emerald-400" strokeWidth={1.5} />
-                    {/* Animated ring pulse */}
+                    <ShieldCheck size={36} className="text-emerald-400" strokeWidth={1.5} />
                     <motion.div
-                      className="absolute inset-0 rounded-full border-2 border-emerald-400/30"
-                      animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, delay: g.delay }}
+                      className="absolute inset-0 rounded-2xl border-2 border-emerald-400/20"
+                      animate={{ scale: [1, 1.3], opacity: [0.4, 0] }}
+                      transition={{ duration: 2.5, repeat: Infinity }}
                     />
                   </motion.div>
-                  <h3 className="mt-4 text-white font-bold">{g.title}</h3>
-                  <p className="mt-3 text-slate-400 text-sm leading-relaxed">{g.text}</p>
-                  <span className="inline-block mt-4 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.06] text-xs text-slate-500">{g.tiers}</span>
-                </GlassCard>
-              </motion.div>
-            ))}
+                </div>
+
+                {/* 3 guarantees in a premium grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    { num: "01", title: "Performance Guarantee", text: "5 Qualified Conversations in 30 Days — or we manage the entire system for free until you do. No excuses. No asterisks.", tiers: "All Tiers", color: "from-emerald-500/10 to-emerald-500/5", border: "border-emerald-500/15", accent: "text-emerald-400" },
+                    { num: "02", title: "Setter KPI Guarantee", text: "Our placed setter meets strict response-time KPIs within 14 days — or we replace them at zero cost to you. Immediate. No delay.", tiers: "Tier 2 & 3", color: "from-cyan-500/10 to-cyan-500/5", border: "border-cyan-500/15", accent: "text-cyan-400" },
+                    { num: "03", title: "Technical Guarantee", text: "Sub-one-second page load time passing Core Web Vitals — or we rebuild the entire landing page for free. Performance is non-negotiable.", tiers: "Tier 3", color: "from-blue-500/10 to-blue-500/5", border: "border-blue-500/15", accent: "text-blue-400" },
+                  ].map((g, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + i * 0.15 }}
+                      className={`relative p-6 rounded-2xl bg-gradient-to-b ${g.color} border ${g.border} group hover:border-opacity-40 transition-all duration-500`}
+                    >
+                      <div className={`font-mono text-3xl font-black ${g.accent} opacity-20 absolute top-4 right-5`}>{g.num}</div>
+                      <h3 className="text-white font-bold text-base mb-3">{g.title}</h3>
+                      <p className="text-slate-400 text-sm leading-relaxed mb-4">{g.text}</p>
+                      <div className="flex items-center gap-2">
+                        <div className={`w-1.5 h-1.5 rounded-full ${g.accent.replace('text-', 'bg-')}`} />
+                        <span className="text-slate-600 text-[10px] uppercase tracking-widest font-semibold">{g.tiers}</span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Bottom risk comparison */}
+                <div className="mt-10 pt-8 border-t border-white/5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="p-5 rounded-2xl bg-red-500/[0.03] border border-red-500/[0.08]">
+                      <div className="flex items-center gap-2 mb-3">
+                        <X size={16} className="text-red-400" />
+                        <span className="text-red-400 text-xs font-bold uppercase tracking-wider">Risk of Doing Nothing</span>
+                      </div>
+                      <p className="text-slate-500 text-sm leading-relaxed">Direct writers continue poaching your best accounts. Your pipeline stays empty after every renewal season. Your agency valuation stagnates at 6x. Doing nothing guarantees you lose.</p>
+                    </div>
+                    <div className="p-5 rounded-2xl bg-emerald-500/[0.03] border border-emerald-500/[0.08]">
+                      <div className="flex items-center gap-2 mb-3">
+                        <ShieldCheck size={16} className="text-emerald-400" />
+                        <span className="text-emerald-400 text-xs font-bold uppercase tracking-wider">Risk of Saying Yes</span>
+                      </div>
+                      <p className="text-slate-500 text-sm leading-relaxed">Your downside is completely protected by written guarantees. If we fail to deliver, we work for free. The only actual financial risk is leaving this page empty-handed.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
-          <p className="mt-10 text-center text-slate-400 text-sm max-w-2xl mx-auto">
-            Compare this to the risk of doing nothing: direct writers will continue poaching your best accounts. Doing nothing guarantees you lose. Saying yes protects your downside completely.
-          </p>
         </div>
       </section>
 
       {/* ════════════════════ SECTION 16: OBJECTION DESTRUCTION ════════════════════ */}
-      <section className="py-24 md:py-32 bg-black border-t border-white/5" style={dotBg}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading badge="Logic Filter" title="Your Objections. Our Answers. Zero Ambiguity." />
+      <section className="py-28 md:py-36 bg-black border-t border-white/5 relative overflow-hidden" style={dotBg}>
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-500/[0.02] rounded-full blur-[150px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+            <span className="inline-block mb-5 px-5 py-2 rounded-full bg-white/[0.03] border border-white/[0.06] text-slate-400 uppercase tracking-[0.2em] text-xs font-bold">
+              Intelligence Briefing
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tighter text-white leading-tight">
+              Every Objection.<br />
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 text-transparent bg-clip-text">Destroyed With Data.</span>
+            </h2>
+          </motion.div>
+
           <div className="max-w-3xl mx-auto space-y-3">
             {FAQ_ITEMS.map((item, i) => (
-              <div key={i} className={`rounded-xl border transition-all ${openFAQ === i ? "border-cyan-500/30 bg-white/[0.02]" : "border-white/[0.06] bg-white/[0.01]"}`}>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className={`group rounded-2xl border transition-all duration-500 overflow-hidden ${
+                  openFAQ === i
+                    ? "border-cyan-500/30 bg-gradient-to-r from-cyan-500/[0.04] via-transparent to-transparent shadow-[0_0_40px_-15px_rgba(6,182,212,0.15)]"
+                    : "border-white/[0.06] bg-white/[0.01] hover:border-white/[0.1]"
+                }`}
+              >
                 <button
                   onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
-                  className="w-full flex items-center justify-between px-6 py-5 text-left"
+                  className="w-full flex items-center gap-4 px-6 py-5 text-left"
                   aria-expanded={openFAQ === i}
                   aria-controls={`faq-answer-${i}`}
                 >
-                  <span className="text-white font-semibold pr-4">{item.q}</span>
-                  <motion.div animate={{ rotate: openFAQ === i ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                    <ChevronDown size={20} className="text-slate-400 flex-shrink-0" />
+                  {/* Number */}
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 font-mono text-xs font-bold transition-colors ${
+                    openFAQ === i ? "bg-cyan-500/20 text-cyan-400" : "bg-white/[0.03] text-slate-600"
+                  }`}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <span className={`font-semibold text-sm sm:text-base flex-1 pr-2 transition-colors ${openFAQ === i ? "text-white" : "text-slate-300"}`}>{item.q}</span>
+                  <motion.div
+                    animate={{ rotate: openFAQ === i ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                      openFAQ === i ? "bg-cyan-500/15" : "bg-white/[0.03]"
+                    }`}
+                  >
+                    <ChevronDown size={16} className={openFAQ === i ? "text-cyan-400" : "text-slate-500"} />
                   </motion.div>
                 </button>
                 <AnimatePresence>
@@ -1929,23 +1790,26 @@ export default function InterceptLandingPage() {
                       exit={{ opacity: 0, height: 0 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-5">
-                        <p className="text-slate-400 leading-relaxed">{item.a}</p>
+                      <div className="px-6 pb-6 pl-[4.5rem]">
+                        <div className="h-px bg-gradient-to-r from-cyan-500/20 via-cyan-500/5 to-transparent mb-4" />
+                        <p className="text-slate-400 text-sm leading-relaxed">{item.a}</p>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ════════════════════ SECTION 17: FOUNDER'S LETTER ════════════════════ */}
+      {/* ════════════════════ ABOUT THE FOUNDER — Saad Zia ════════════════════ */}
       <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <SectionHeading badge="The Architect" title="Built by Someone Who Understands the $180,000 Commission at Stake." subtitle="This is not a marketing agency that learned insurance jargon last week. This is an intelligence architecture engineered by a single analytical mind." />
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start max-w-6xl mx-auto">
             {/* Image */}
             <motion.div
               className="md:col-span-4 flex justify-center"
@@ -1955,14 +1819,27 @@ export default function InterceptLandingPage() {
               transition={{ type: "spring", stiffness: 80, damping: 20 }}
             >
               <div className="relative">
-                <div className="absolute -inset-3 bg-gradient-to-br from-cyan-500/20 via-blue-500/10 to-transparent rounded-2xl blur-xl pointer-events-none" />
-                <div className="relative w-36 h-36 sm:w-44 sm:h-44 md:w-48 md:h-48 rounded-2xl overflow-hidden border border-white/[0.1] shadow-[0_0_40px_-10px_rgba(6,182,212,0.2)] bg-gradient-to-b from-slate-900 to-[#0B1120]">
-                  <img
-                    src={FOUNDER_IMG}
-                    alt="Saad — Founder, Intercept Architecture"
-                    className="w-full h-full object-cover object-top"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute -inset-4 bg-gradient-to-br from-cyan-500/15 via-blue-500/8 to-transparent rounded-3xl blur-2xl pointer-events-none" />
+                <div className="relative w-56 sm:w-64 md:w-full rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_0_60px_-15px_rgba(6,182,212,0.2)]">
+                  <div className="bg-gradient-to-b from-[#0d1525] via-[#0B1120] to-black">
+                    <img src={FOUNDER_IMG} alt="Saad Zia — Revenue Architect" className="w-full h-auto object-cover object-top" />
+                    <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0B1120] to-transparent" />
+                  </div>
+                  <div className="bg-[#0B1120] px-5 py-3 border-t border-white/[0.05]">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="text-white font-bold text-sm">Saad Zia</span>
+                        </div>
+                        <span className="text-slate-500 text-xs">Revenue Architect & Founder</span>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-cyan-400 font-mono font-bold text-xs">$12M+</div>
+                        <div className="text-slate-600 text-[9px] uppercase tracking-wider">Intercepted</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <motion.div
                   animate={{ y: [-3, 3, -3] }}
@@ -1971,12 +1848,13 @@ export default function InterceptLandingPage() {
                 >
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-emerald-400 text-xs font-semibold">Available</span>
+                    <span className="text-emerald-400 text-xs font-semibold">Accepting Partners</span>
                   </div>
                 </motion.div>
               </div>
             </motion.div>
-            {/* Letter */}
+
+            {/* Bio Content */}
             <motion.div
               className="md:col-span-8"
               initial={{ opacity: 0, x: 30 }}
@@ -1984,33 +1862,86 @@ export default function InterceptLandingPage() {
               viewport={{ once: true }}
               transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.15 }}
             >
-              <span className="inline-block mb-5 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-slate-500 uppercase tracking-widest text-xs font-semibold">
-                A Letter From Our Founder
-              </span>
-              <div className="text-slate-300 text-base sm:text-lg leading-relaxed space-y-5">
+              <div className="space-y-5 text-slate-300 text-base sm:text-lg leading-relaxed">
                 <p>
-                  You spent the last decade building a highly profitable commercial agency from nothing. You know risk better than anyone — it is literally your profession. You know how to close.
+                  You have spent a decade building a highly profitable commercial agency through sheer grit. You know how to close. You understand loss ratios, hard markets, and the crushing weight of 29 consecutive quarters of commercial rate increases better than any marketer ever will. <span className="text-white font-semibold">But the system that should reward your expertise is actively working against you.</span>
                 </p>
                 <p>
-                  But as you look toward the next decade, you face a brutal truth: your sales process lives in your head and your inbox. If you stop selling, your agency stops growing. And the massive carriers are getting better at stealing your clients every quarter.
+                  Direct writers are scraping your renewal dates and approaching your best clients with quotes 15% lower — 60 days before you even know the policy is up. Shared internet leads are recycled garbage sold to fifty agents simultaneously. BNI breakfasts yield nothing but Avon reps and residential realtors after 156 hours a year of forced networking. AI SDRs hallucinate coverages and burn your domain reputation on completely irrelevant prospects. And every October through February, you vanish into the renewal trap — manually remarketing every account in Applied Epic, fighting underwriters over stricter binding rules, apologizing for 20% rate hikes you cannot control — while your pipeline dies completely.
                 </p>
                 <p>
-                  I built Intercept Architecture to solve the single largest bottleneck in agency growth: founder dependence. We do not sell marketing. We deploy enterprise-grade regulatory intelligence and place elite human capital directly inside your business.
+                  <span className="text-white font-semibold">Saad Zia built Intercept Architecture specifically because no marketing agency on earth understands this problem.</span> They sell you isolated tactics — generic cold calling, slow WordPress templates, or basic email bots that cannot navigate a six-to-eighteen-month commercial sales cycle. They do not understand Market Blocking. They cannot handle coverage objections from sophisticated CFOs. They have never heard of an ACORD form, an EZLynx submission, or the mathematical impossibility of scaling through Chamber of Commerce handshakes.
+                </p>
+                <p>
+                  Saad operates at the rare intersection of three disciplines that almost never coexist in one person. As a <span className="text-cyan-400 font-semibold">full-stack enterprise developer</span>, he codes the sub-one-second Next.js trust centers and custom regulatory scraping algorithms that form the technical backbone of the Commercial Reconnaissance Engine — precision-built enterprise assets that signal elite credibility to the exact CFOs and CEOs who control $150,000+ premium accounts, completely outclassing the slow WordPress sites used by every local competitor. As a <span className="text-cyan-400 font-semibold">complex automation architect</span>, he designs the n8n webhook infrastructure that monitors ERISA Form 5500 filings, FMCSA bond drops, workers' compensation modifications, and state DOT registrations — then triggers hyper-targeted interception sequences exactly 60 days before the target's renewal window opens, with zero manual intervention from you. As a <span className="text-cyan-400 font-semibold">high-ticket conversion strategist</span>, he engineers every touchpoint — cold email copy, BANT qualification scripts, omni-channel conversational playbooks, Direct Writer Teardown sequences, and objection-handling frameworks — using loss aversion psychology, the Cialdini scarcity principle, and insider insurance terminology that bypass the cynicism of Level-5 sophisticated buyers who have been burned by every lead vendor on the market.
                 </p>
                 <p className="text-white font-semibold">
-                  We transform your agency from a founder-dependent lifestyle business into a predictable, autonomous acquisition machine. The kind of machine private equity firms pay 13x multiples for. You deserve to command that number. Let us build the infrastructure to get you there.
+                  This convergence is exactly why the system intercepts commercial accounts before your competitors even know the renewal window has opened. It is not a collection of outsourced tactics bolted together by an agency that learned insurance jargon last week. It is a single, cohesive intelligence architecture — designed, coded, and deployed by the same analytical mind that understands both the scraping algorithm and the $180,000 in lifetime commission at stake when a direct writer poaches your best client sixty days before renewal.
                 </p>
-                <div className="pt-5 border-t border-white/5">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-gradient-to-b from-slate-800 to-slate-900">
-                      <img src={FOUNDER_IMG} alt="Saad" className="w-full h-full object-cover object-top" />
-                    </div>
-                    <div>
-                      <div className="text-white font-bold">Saad</div>
-                      <div className="text-slate-500 text-sm">Founder, Intercept Architecture</div>
-                    </div>
+              </div>
+
+              {/* Personal message — direct to all 4 personas */}
+              <div className="mt-8 p-6 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                <p className="text-slate-300 text-base leading-relaxed italic">
+                  "You are a dedicated risk advisor fighting to protect your clients in a market that treats your expertise like a cheap commodity. If owning an agency was just selling, that would be a dream. But you are drowning — in ACORD forms, carrier portal logins, in apologetic conversations about rate hikes you cannot control, in 6 AM networking breakfasts surrounded by people who will never refer a $200,000 manufacturing account. I built this system because you deserve to stop being a debt collector and start being the CEO your agency needs. We do not sell marketing. We deploy the exact reconnaissance architecture that transforms your agency from a founder-dependent lifestyle business into a predictable, autonomous acquisition machine — the kind private equity firms pay 13x multiples for. One account pays for the entire year. Everything else is compounding profit that renews for a decade. You deserve to command that number."
+                </p>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-gradient-to-b from-slate-800 to-slate-900">
+                    <img src={FOUNDER_IMG} alt="Saad Zia" className="w-full h-full object-cover object-top" />
+                  </div>
+                  <div>
+                    <span className="text-white font-bold text-sm">Saad Zia</span>
+                    <span className="text-slate-500 text-xs ml-2">Founder & Chief Architect</span>
                   </div>
                 </div>
+              </div>
+
+              {/* Skill Stack — 6 cards from offer + persona docs */}
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  { title: "Regulatory Data Scraping", desc: "ERISA Form 5500 filings, FMCSA bond drops, state DOT registrations, workers' comp modifications — proprietary algorithms predicting exact renewal windows 60–90 days before expiry", icon: Database },
+                  { title: "Enterprise Development", desc: "Sub-1-second Next.js trust centers, React executive dashboards, custom scraping engines — enterprise assets that outclass every WordPress competitor in commercial insurance", icon: Cpu },
+                  { title: "Automation Architecture", desc: "n8n webhook infrastructure, CRM alert mapping, ABM Surround Sound deployment, 6-month lifecycle nurture sequences — zero-intervention pipeline orchestration", icon: Zap },
+                  { title: "Conversion Engineering", desc: "Loss aversion frameworks, BANT qualification scripts, omni-channel playbooks, Direct Writer Teardown sequences — Level-5 buyer psychology that bypasses total cynicism", icon: Target },
+                  { title: "Commercial Insurance Intelligence", desc: "Market Blocking countermeasures, renewal trap navigation, hard market positioning, carrier appetite analysis, ACORD workflow fluency — deep operational insider knowledge", icon: Shield },
+                  { title: "PE Exit Architecture", desc: "Algorithmic growth documentation, founder-independence metrics, 10x–13x EBITDA multiple positioning, agency valuation acceleration — building the machine PE firms pay premium for", icon: TrendingUp },
+                ].map((skill, si) => (
+                  <motion.div
+                    key={si}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + si * 0.08 }}
+                  >
+                    <GlassCard className="p-5 h-full" hover={true}>
+                      <GlowIcon icon={skill.icon} />
+                      <h4 className="mt-3 text-white font-bold text-sm">{skill.title}</h4>
+                      <p className="mt-1.5 text-slate-500 text-xs leading-relaxed">{skill.desc}</p>
+                    </GlassCard>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Track record */}
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {[
+                  { num: "$12M+", label: "Commercial Premium Intercepted" },
+                  { num: "200+", label: "Territories Deployed" },
+                  { num: "3,400+", label: "CEO Conversations Generated" },
+                  { num: "94%", label: "Partner Retention Rate" },
+                ].map((stat, si) => (
+                  <motion.div
+                    key={si}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + si * 0.1 }}
+                    className="text-center p-4 rounded-xl bg-white/[0.01] border border-white/5"
+                  >
+                    <div className="text-xl sm:text-2xl font-mono font-extrabold text-cyan-400">{stat.num}</div>
+                    <div className="text-slate-500 text-[10px] sm:text-xs mt-1">{stat.label}</div>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </div>
