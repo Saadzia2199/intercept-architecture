@@ -478,7 +478,7 @@ export default function InterceptLandingPage() {
      RENDER
      ═══════════════════════════════════════════════════════════════ */
   return (
-    <div className="min-h-screen bg-black text-white antialiased" style={{ fontFamily: "'Inter', 'Geist Sans', system-ui, sans-serif" }}>
+    <div className="min-h-screen bg-black text-white antialiased selection:bg-cyan-500/20 selection:text-cyan-200" style={{ fontFamily: "'Inter', 'Geist Sans', system-ui, sans-serif" }}>
 
       {/* ════════════════════ SECTION 1: GLOBAL COMMAND NAV ════════════════════ */}
       <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 border-b ${scrolled ? "bg-black/90 backdrop-blur-xl border-white/5" : "bg-white/[0.02] backdrop-blur-xl border-white/5"}`}>
@@ -934,37 +934,117 @@ export default function InterceptLandingPage() {
       </section>
 
       {/* ════════════════════ SECTION 7: 3-PHASE MECHANISM ════════════════════ */}
-      <section id="mechanism" className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden" style={dotBg2}>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/[0.02] rounded-full blur-[120px] pointer-events-none" />
+      <section id="mechanism" className="py-28 md:py-36 bg-black border-t border-white/5 relative overflow-hidden" style={dotBg2}>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-cyan-500/[0.015] rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-500/[0.01] rounded-full blur-[100px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading badge="The Mechanism" title="Three Phases. Zero Guesswork. Complete Interception." />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { icon: Database, title: "Phase 1: Extract.", desc: "We deploy scraping algorithms to monitor ERISA Form 5500 filings, FMCSA bond drops, and state DOT registrations exclusively in your territory. This data reveals employee counts, premium budgets, and exact renewal windows 60–90 days out. No shared lists. No recycled data. Proprietary regulatory intelligence." },
-              { icon: Zap, title: "Phase 2: Intercept.", desc: "Custom n8n webhooks trigger a hyper-targeted outreach sequence exactly 60 days before the target's renewal. Tailored cold emails from protected secondary domains. Account-Based Marketing ads surrounding the CEO and executive team. We enter the conversation at the exact moment they are worried about rate hikes." },
-              { icon: UserCheck, title: "Phase 3: Convert.", desc: "A highly trained human appointment setter is placed directly inside your CRM. They answer replies in under 5 minutes. They run strict BANT qualification. They use omni-channel playbooks to convert cold interest into booked meetings. You only manage the close. Everything else is handled." },
-            ].map((card, i) => {
-              const ref = useRef(null);
-              const inView = useInView(ref, { once: true, margin: "-100px" });
-              return (
-                <motion.div
-                  key={i} ref={ref}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ type: "spring", stiffness: 100, damping: 20, delay: i * 0.15 }}
-                >
-                  <GlassCard className="p-8 h-full">
-                    <GlowIcon icon={card.icon} />
-                    <h3 className="mt-5 text-xl font-bold text-white">{card.title}</h3>
-                    <p className="mt-3 text-slate-400 leading-relaxed">{card.desc}</p>
-                  </GlassCard>
-                </motion.div>
-              );
-            })}
+
+          {/* Bento Box Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5 max-w-6xl mx-auto">
+            {/* Phase 1 — Large card spanning 7 cols */}
+            <motion.div
+              className="md:col-span-7"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 80, damping: 20 }}
+            >
+              <div className="group relative h-full rounded-3xl overflow-hidden bg-gradient-to-br from-cyan-500/[0.06] via-[#0a0f1c] to-[#050505] border border-cyan-500/[0.12] transition-all duration-500 hover:border-cyan-500/25 hover:shadow-[0_0_60px_-20px_rgba(6,182,212,0.2)]">
+                <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
+                <div className="p-8 sm:p-10">
+                  <div className="flex items-center gap-4 mb-6">
+                    <GlowIcon icon={Database} />
+                    <div>
+                      <span className="text-cyan-400/60 text-[10px] uppercase tracking-[0.3em] font-bold">Phase 01</span>
+                      <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Extract.</h3>
+                    </div>
+                  </div>
+                  <p className="text-slate-400 text-base sm:text-lg leading-relaxed max-w-xl">
+                    We deploy scraping algorithms to monitor ERISA Form 5500 filings, FMCSA bond drops, and state DOT registrations exclusively in your territory. This data reveals employee counts, premium budgets, and exact renewal windows 60–90 days out.
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {["ERISA Form 5500", "FMCSA Bonds", "DOT Registrations", "Workers' Comp Mods"].map((tag) => (
+                      <span key={tag} className="px-3 py-1.5 rounded-lg bg-cyan-500/[0.06] border border-cyan-500/[0.1] text-cyan-400/80 text-[10px] uppercase tracking-widest font-semibold">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Phase 2 — Tall card spanning 5 cols */}
+            <motion.div
+              className="md:col-span-5"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.15 }}
+            >
+              <div className="group relative h-full rounded-3xl overflow-hidden bg-gradient-to-b from-white/[0.03] via-[#080c15] to-[#050505] border border-white/[0.06] transition-all duration-500 hover:border-cyan-500/20 hover:shadow-[0_0_50px_-20px_rgba(6,182,212,0.15)]">
+                <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+                <div className="p-8 sm:p-10">
+                  <div className="flex items-center gap-4 mb-6">
+                    <GlowIcon icon={Zap} />
+                    <div>
+                      <span className="text-slate-500 text-[10px] uppercase tracking-[0.3em] font-bold">Phase 02</span>
+                      <h3 className="text-2xl font-extrabold text-white tracking-tight">Intercept.</h3>
+                    </div>
+                  </div>
+                  <p className="text-slate-400 leading-relaxed">
+                    Custom n8n webhooks trigger a hyper-targeted outreach sequence exactly 60 days before the target's renewal. Tailored cold emails from protected secondary domains. ABM ads surrounding the CEO and executive team. We enter the conversation at the exact moment they are worried about rate hikes.
+                  </p>
+                  <div className="mt-6 p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                    <div className="text-[10px] text-slate-600 uppercase tracking-[0.2em] font-bold mb-2">Trigger Window</div>
+                    <div className="text-3xl font-mono font-black text-cyan-400">60 <span className="text-lg text-slate-500 font-normal">days before renewal</span></div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Phase 3 — Full-width card */}
+            <motion.div
+              className="md:col-span-12"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.3 }}
+            >
+              <div className="group relative rounded-3xl overflow-hidden bg-gradient-to-r from-emerald-500/[0.04] via-[#080c15] to-cyan-500/[0.04] border border-white/[0.06] transition-all duration-500 hover:border-emerald-500/20 hover:shadow-[0_0_60px_-20px_rgba(16,185,129,0.15)]">
+                <div className="h-[1px] w-full bg-gradient-to-r from-emerald-400/30 via-transparent to-cyan-400/30" />
+                <div className="p-8 sm:p-10">
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    <div className="md:col-span-8">
+                      <div className="flex items-center gap-4 mb-5">
+                        <GlowIcon icon={UserCheck} color="emerald" />
+                        <div>
+                          <span className="text-emerald-400/60 text-[10px] uppercase tracking-[0.3em] font-bold">Phase 03</span>
+                          <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Convert.</h3>
+                        </div>
+                      </div>
+                      <p className="text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl">
+                        A highly trained human appointment setter is placed directly inside your CRM. They answer replies in under 5 minutes. They run strict BANT qualification. They use omni-channel playbooks to convert cold interest into booked meetings. You only manage the close. Everything else is handled.
+                      </p>
+                    </div>
+                    <div className="md:col-span-4 flex flex-col gap-3">
+                      {[
+                        { label: "Response Time", value: "< 5 min", color: "text-emerald-400" },
+                        { label: "Qualification", value: "BANT Verified", color: "text-cyan-400" },
+                        { label: "Your Role", value: "Close Only", color: "text-white" },
+                      ].map((stat) => (
+                        <div key={stat.label} className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 transition-all duration-300 hover:bg-white/[0.04]">
+                          <div className="text-[9px] text-slate-600 uppercase tracking-[0.25em] font-bold">{stat.label}</div>
+                          <div className={`text-lg font-mono font-bold ${stat.color} mt-0.5`}>{stat.value}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
 
           {/* ANIMATED PIPELINE SVG */}
-          <div className="mt-16 max-w-5xl mx-auto overflow-x-auto">
+          <div className="mt-20 max-w-5xl mx-auto overflow-x-auto">
             <div className="min-w-[700px]">
               <svg viewBox="0 0 800 80" className="w-full">
                 {["Regulatory Data", "Scraping Algorithm", "n8n Webhook", "Email + ABM", "Setter", "BANT Filter", "Booked Meeting", "You Close"].map((label, i) => {
@@ -972,23 +1052,31 @@ export default function InterceptLandingPage() {
                   return (
                     <g key={i}>
                       <motion.rect
-                        x={x} y="15" width="80" height="30" rx="8"
-                        fill="rgba(6,182,212,0.1)" stroke="rgba(6,182,212,0.3)" strokeWidth="1"
+                        x={x} y="15" width="80" height="30" rx="10"
+                        fill="rgba(6,182,212,0.06)" stroke="rgba(6,182,212,0.2)" strokeWidth="0.5"
                         initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }} transition={{ delay: i * 0.15 }}
+                        viewport={{ once: true }} transition={{ delay: i * 0.12 }}
                       />
                       <motion.text
-                        x={x + 40} y="34" fill="#06B6D4" fontSize="7.5" textAnchor="middle" fontWeight="600"
-                        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }} transition={{ delay: i * 0.15 + 0.1 }}
+                        x={x + 40} y="34" fill="#06B6D4" fontSize="7" textAnchor="middle" fontWeight="600" opacity="0.8"
+                        initial={{ opacity: 0 }} whileInView={{ opacity: 0.8 }}
+                        viewport={{ once: true }} transition={{ delay: i * 0.12 + 0.1 }}
                       >{label}</motion.text>
                       {i < 7 && (
-                        <motion.line
-                          x1={x + 82} y1="30" x2={x + 96} y2="30"
-                          stroke="#06B6D4" strokeWidth="1" strokeDasharray="4 2"
-                          initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }}
-                          viewport={{ once: true }} transition={{ delay: i * 0.15 + 0.2 }}
-                        />
+                        <g>
+                          <motion.line
+                            x1={x + 82} y1="30" x2={x + 96} y2="30"
+                            stroke="rgba(6,182,212,0.2)" strokeWidth="0.5"
+                            initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }}
+                            viewport={{ once: true }} transition={{ delay: i * 0.12 + 0.2 }}
+                          />
+                          <motion.circle
+                            r="1.5" fill="#06B6D4"
+                            animate={{ cx: [x + 82, x + 96], opacity: [0, 0.6, 0] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: i * 0.3, ease: "linear" }}
+                            cy="30"
+                          />
+                        </g>
                       )}
                     </g>
                   );
@@ -1523,7 +1611,7 @@ export default function InterceptLandingPage() {
 
                       {/* Bonuses */}
                       {tier.bonuses.length > 0 && (
-                        <div className="mt-5 pt-5 border-t border-white/[0.04]">
+                        <div className="mt-5 pt-5 border-t border-white/5">
                           <div className="flex items-center gap-2 mb-3">
                             <Star size={12} className="text-emerald-400" />
                             <span className="text-[10px] text-emerald-400 uppercase tracking-[0.2em] font-bold">Included Bonuses</span>
@@ -2053,6 +2141,15 @@ export default function InterceptLandingPage() {
           .animate-marquee {
             animation: marquee 30s linear infinite;
           }
+          html { scroll-behavior: smooth; }
+          * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+          ::selection { background: rgba(6,182,212,0.2); color: #e0f2fe; }
+          ::-webkit-scrollbar { width: 6px; }
+          ::-webkit-scrollbar-track { background: #050505; }
+          ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+          ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+          input[type="range"]::-webkit-slider-thumb { transition: all 0.2s ease; }
+          input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); box-shadow: 0 0 15px rgba(6,182,212,0.5); }
         `}</style>
       </section>
 
@@ -2493,42 +2590,45 @@ export default function InterceptLandingPage() {
       </section>
 
       {/* ════════════════════ SECTION 22: CORPORATE FOOTER ════════════════════ */}
-      <footer className="py-10 md:py-12 bg-black border-t border-white/5 pb-24 md:pb-12">
+      <footer className="py-14 md:py-16 bg-[#030305] border-t border-white/[0.03] pb-28 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <span className="text-slate-600 text-sm font-mono">INTERCEPT ARCHITECTURE &copy; 2026.</span>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="flex flex-col sm:flex-row items-center gap-5">
+              <span className="text-slate-700 text-[11px] font-mono tracking-[0.15em]">INTERCEPT ARCHITECTURE &copy; 2026</span>
+              <div className="h-3 w-px bg-white/[0.06] hidden sm:block" />
+              <span className="text-slate-700 text-[11px] font-mono tracking-widest uppercase">Secure B2B Reconnaissance</span>
               {/* WhatsApp in footer */}
               <a
-                href="https://wa.me/3165160899"
+                href="https://wa.me/message/M6AEG7RDYV57M1"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#25D366]/10 border border-[#25D366]/20 text-[#25D366] text-xs font-semibold hover:bg-[#25D366]/20 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366]/[0.06] border border-[#25D366]/15 text-[#25D366]/80 text-[11px] font-semibold hover:bg-[#25D366]/15 hover:text-[#25D366] transition-all duration-300"
               >
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
-                Chat on WhatsApp
+                WhatsApp
               </a>
             </div>
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+            <div className="flex flex-wrap justify-center gap-5 md:gap-6">
               {["Privacy Protocol", "Terms of Service", "Data Security", "SEC Compliance"].map((link) => (
-                <a key={link} href="#" className="text-slate-600 text-xs hover:text-slate-400 transition-colors">{link}</a>
+                <a key={link} href="#" className="text-slate-700 text-[11px] hover:text-slate-400 transition-all duration-300 tracking-wide">{link}</a>
               ))}
             </div>
           </div>
-          <p className="mt-8 text-slate-700 text-xs max-w-3xl mx-auto text-center leading-relaxed">
+          <div className="mt-10 h-px bg-gradient-to-r from-transparent via-white/[0.03] to-transparent" />
+          <p className="mt-8 text-slate-800 text-[10px] max-w-3xl mx-auto text-center leading-relaxed tracking-wide">
             This platform utilizes public regulatory data under applicable freedom of information laws. We guarantee absolute exclusivity to one agency per 50-mile radius. Once a territory is claimed, we are contractually bound to reject all other local applicants. All commission figures are illustrative projections based on standard industry rates and do not constitute a guarantee of earnings.
           </p>
         </div>
       </footer>
 
       {/* ════════════════════ MOBILE STICKY CTA ════════════════════ */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-slate-900/90 backdrop-blur-lg border-t border-white/10 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-black/95 backdrop-blur-lg border-t border-white/5 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <a
           href="#territory"
           onClick={(e) => { e.preventDefault(); document.getElementById("territory")?.scrollIntoView({ behavior: "smooth" }); }}
-          className="block w-full py-3.5 rounded-xl bg-cyan-500 text-white font-bold text-center text-base shadow-[0_0_30px_-5px_rgba(6,182,212,0.4)]"
+          className="block w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-center text-base shadow-[0_0_40px_-10px_rgba(6,182,212,0.4)] transition-all duration-300 active:scale-[0.98]"
         >
           Check Territory Availability
         </a>
@@ -2536,22 +2636,25 @@ export default function InterceptLandingPage() {
 
       {/* ════════════════════ WHATSAPP FLOATING ICON ════════════════════ */}
       <motion.a
-        href="https://wa.me/3165160899"
+        href="https://wa.me/message/M6AEG7RDYV57M1"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Contact us on WhatsApp"
-        className="fixed bottom-20 md:bottom-8 right-4 md:right-6 z-[90] w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-[0_4px_20px_rgba(37,211,102,0.4)] hover:shadow-[0_4px_30px_rgba(37,211,102,0.6)] transition-shadow"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
+        aria-label="Chat with us on WhatsApp"
+        className="fixed bottom-20 md:bottom-8 right-4 md:right-6 z-[90] group"
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.94 }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.5, type: "spring", stiffness: 200, damping: 15 }}
+        transition={{ delay: 2, type: "spring", stiffness: 200, damping: 15 }}
       >
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
-        {/* Pulse ring */}
-        <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
+        {/* Outer glow ring — subtle, always visible */}
+        <div className="absolute inset-0 rounded-full bg-[#25D366]/20 blur-md group-hover:bg-[#25D366]/30 transition-all duration-500" />
+        {/* Button */}
+        <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-[#25D366] to-[#128C7E] flex items-center justify-center shadow-[0_2px_16px_rgba(37,211,102,0.35)] group-hover:shadow-[0_4px_24px_rgba(37,211,102,0.5)] transition-all duration-300 border border-white/10">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="white">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
       </motion.a>
 
     </div>
