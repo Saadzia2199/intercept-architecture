@@ -3,10 +3,8 @@ import { motion, AnimatePresence, useInView, useSpring, useTransform, useScroll 
 import {
   ShieldCheck, Lock, Server, Target, Clock, Shield, AlertTriangle, Users,
   Database, Zap, UserCheck, MessageSquare, Filter, Trophy, Play, ChevronDown,
-  ChevronRight, Eye, X, Menu, Check, ArrowRight, Activity, TrendingUp,
-  BarChart3, Layers, Globe, Terminal, Star, ExternalLink, Calculator, Phone,
-  Radar, Crosshair, Cpu, Wifi, Radio, Sparkles, CircleDot, Flame, Award,
-  BadgeCheck, Fingerprint, ScanLine, Signal, Webhook
+  ChevronRight, Eye, X, Check, ArrowRight, Activity, TrendingUp,
+  Globe, Star, ExternalLink, Phone, Radar
 } from "lucide-react";
  
 const FOUNDER_IMG = "https://i.ibb.co/jPw2nsyf/saad-blue-3piece-pic.png";
