@@ -1,10 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
 import "./index.css";
 import InterceptLandingPage from "./page.jsx";
+import { ViteReactSSG } from "vite-react-ssg";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <InterceptLandingPage />
-  </React.StrictMode>
-);
+export const createRoot = ViteReactSSG(<InterceptLandingPage />);
