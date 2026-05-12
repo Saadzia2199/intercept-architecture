@@ -274,6 +274,17 @@ function GlassCard({ children, className = "", hover = true }) {
   );
 }
  
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-500 z-[101] origin-left"
+      style={{ scaleX }}
+    />
+  );
+}
+ 
 function AnimatedNumber({ value, prefix = "$", suffix = "" }) {
   const spring = useSpring(0, { stiffness: 50, damping: 20 });
   const display = useTransform(spring, (v) => `${prefix}${Math.round(v).toLocaleString()}${suffix}`);
@@ -480,10 +491,13 @@ export default function InterceptLandingPage() {
   return (
     <div className="min-h-screen bg-black text-white antialiased selection:bg-cyan-500/20 selection:text-cyan-200" style={{ fontFamily: "'Inter', 'Geist Sans', system-ui, sans-serif" }}>
  
+      {/* ════════════════════ SCROLL PROGRESS BAR ════════════════════ */}
+      <ScrollProgress />
+ 
       {/* ════════════════════ SECTION 1: GLOBAL COMMAND NAV ════════════════════ */}
       <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 border-b ${scrolled ? "bg-black/90 backdrop-blur-xl border-white/5" : "bg-white/[0.02] backdrop-blur-xl border-white/5"}`}>
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-16">
-          <a href="#hero" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="text-white tracking-[0.15em] sm:tracking-[0.25em] text-[10px] sm:text-xs md:text-sm font-bold select-none flex-shrink-0 cursor-pointer hover:text-cyan-400 transition-colors duration-300">INTERCEPT</a>
+          <a href="#hero" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="text-white tracking-[0.1em] sm:tracking-[0.15em] md:tracking-[0.25em] text-[8px] sm:text-[10px] md:text-xs lg:text-sm font-bold select-none flex-shrink-0 cursor-pointer hover:text-cyan-400 transition-colors duration-300">INTERCEPT ARCHITECTURE</a>
           <div className="flex items-center gap-2 sm:gap-4 md:gap-6 lg:gap-8">
             {[
               { label: "Mechanism", target: "mechanism" },
@@ -795,15 +809,23 @@ export default function InterceptLandingPage() {
       </section>
  
       {/* ════════════════════ SECTION 5: BEFORE VS AFTER ════════════════════ */}
-      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 md:py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden">
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-red-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-cyan-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading badge="Transformation" title="Drag to Compare: Your Current Reality vs. Your Interception Future" />
-          <div
-            ref={sliderContainerRef}
-            className="relative max-w-5xl mx-auto aspect-[16/9] rounded-2xl overflow-hidden border border-white/[0.08] cursor-ew-resize select-none"
-            onMouseDown={(e) => { isDragging.current = true; handleSliderMove(e.clientX); }}
-            onTouchStart={(e) => { isDragging.current = true; handleSliderMove(e.touches[0].clientX); }}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 80, damping: 20 }}
           >
+            <div
+              ref={sliderContainerRef}
+              className="relative max-w-5xl mx-auto aspect-[16/9] rounded-2xl overflow-hidden border border-white/[0.08] cursor-ew-resize select-none shadow-[0_0_80px_-20px_rgba(6,182,212,0.1)]"
+              onMouseDown={(e) => { isDragging.current = true; handleSliderMove(e.clientX); }}
+              onTouchStart={(e) => { isDragging.current = true; handleSliderMove(e.touches[0].clientX); }}
+            >
             {/* BEFORE SIDE */}
             <div className="absolute inset-0 bg-gradient-to-br from-red-950/40 via-slate-900 to-slate-900 p-6 md:p-10 flex flex-col justify-center">
               <div className="text-red-400 uppercase tracking-widest text-xs font-semibold mb-4">Before — The 80-Hour Hustle</div>
@@ -836,6 +858,7 @@ export default function InterceptLandingPage() {
               </div>
             </div>
           </div>
+          </motion.div>
         </div>
       </section>
  
@@ -2597,3 +2620,16 @@ export default function InterceptLandingPage() {
     </div>
   );
 }
+ 
+
+
+
+
+
+
+
+
+
+
+
+
