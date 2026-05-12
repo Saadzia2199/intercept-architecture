@@ -482,12 +482,12 @@ export default function InterceptLandingPage() {
  
       {/* ════════════════════ SECTION 1: GLOBAL COMMAND NAV ════════════════════ */}
       <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 border-b ${scrolled ? "bg-black/90 backdrop-blur-xl border-white/5" : "bg-white/[0.02] backdrop-blur-xl border-white/5"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <a href="#hero" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="text-white tracking-[0.25em] text-xs sm:text-sm font-bold select-none flex-shrink-0 cursor-pointer hover:text-cyan-400 transition-colors duration-300">INTERCEPT ARCHITECTURE</a>
-          <div className="flex items-center gap-3 sm:gap-6 md:gap-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-16">
+          <a href="#hero" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="text-white tracking-[0.15em] sm:tracking-[0.25em] text-[10px] sm:text-xs md:text-sm font-bold select-none flex-shrink-0 cursor-pointer hover:text-cyan-400 transition-colors duration-300">INTERCEPT</a>
+          <div className="flex items-center gap-2 sm:gap-4 md:gap-6 lg:gap-8">
             {[
               { label: "Mechanism", target: "mechanism" },
-              { label: "ROI Calculator", target: "roi-calculator" },
+              { label: "ROI", target: "roi-calculator" },
               { label: "Proof", target: "proof" },
               { label: "Pricing", target: "pricing" },
             ].map((link) => (
@@ -498,7 +498,7 @@ export default function InterceptLandingPage() {
                   e.preventDefault();
                   document.getElementById(link.target)?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="relative text-slate-400 hover:text-cyan-400 text-xs sm:text-sm transition-colors duration-300 hidden sm:block after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-cyan-400 after:transition-all after:duration-300 hover:after:w-full"
+                className="relative text-slate-400 hover:text-cyan-400 text-[10px] sm:text-xs md:text-sm transition-colors duration-300 after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-cyan-400 after:transition-all after:duration-300 hover:after:w-full"
               >
                 {link.label}
               </a>
@@ -509,10 +509,10 @@ export default function InterceptLandingPage() {
               rel="noopener noreferrer"
               animate={{ boxShadow: ["0 0 20px rgba(6,182,212,0.2)", "0 0 40px rgba(6,182,212,0.4)", "0 0 20px rgba(6,182,212,0.2)"] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="px-3 sm:px-5 py-2 rounded-lg border border-cyan-500/50 text-cyan-400 text-xs sm:text-sm font-semibold hover:bg-cyan-500/10 transition-colors whitespace-nowrap"
+              className="px-2 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-lg border border-cyan-500/50 text-cyan-400 text-[10px] sm:text-xs md:text-sm font-semibold hover:bg-cyan-500/10 transition-colors whitespace-nowrap"
             >
-              <span className="hidden sm:inline">Apply For Territory Lockout</span>
-              <span className="sm:hidden">Apply Now</span>
+              <span className="hidden md:inline">Apply For Territory Lockout</span>
+              <span className="md:hidden">Apply</span>
             </motion.a>
           </div>
         </div>
@@ -1939,18 +1939,34 @@ export default function InterceptLandingPage() {
               </div>
  
               {/* CTA */}
-              <motion.a
-                href={CALENDLY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="mt-8 inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-cyan-500 text-white font-bold text-sm shadow-[0_0_30px_-8px_rgba(6,182,212,0.4)] hover:bg-cyan-400 transition-all duration-300"
-              >
-                <Phone size={16} />
-                Book a 1-on-1 Strategy Call with Saad
-                <ArrowRight size={16} />
-              </motion.a>
+              {/* CTAs */}
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <motion.a
+                  href={CALENDLY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-cyan-500 text-white font-bold text-sm shadow-[0_0_30px_-8px_rgba(6,182,212,0.4)] hover:bg-cyan-400 transition-all duration-300"
+                >
+                  <Phone size={16} />
+                  Book a 1-on-1 Strategy Call
+                  <ArrowRight size={16} />
+                </motion.a>
+                <motion.a
+                  href="https://www.linkedin.com/in/saadzia2199"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.04, borderColor: "rgba(10,102,194,0.5)" }}
+                  whileTap={{ scale: 0.96 }}
+                  className="group inline-flex items-center gap-2.5 px-5 py-3 rounded-xl border border-white/[0.08] bg-white/[0.02] text-slate-300 text-sm font-semibold hover:bg-[#0A66C2]/10 hover:text-white transition-all duration-300"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" className="fill-[#0A66C2] group-hover:fill-[#3b8de0] transition-colors duration-300">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  Connect on LinkedIn
+                </motion.a>
+              </div>
             </motion.div>
           </div>
         </div>
